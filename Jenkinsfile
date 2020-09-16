@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo "Building..."
                 bat "C:\\nuget\\nuget.exe restore test2.sln"
-                bat "\"${tool 'MsBuild 4.0 x64'}\" ${project}.csproj /p:Configuration=${params.DEPLOY_ENV} /p:OutputPath=${env.WORKSPACE}/Super/bin/${params.DEPLOY_ENV} /p:Platform=\"Any CPU\""
+                bat "MsBuild test2.sln /p:Configuration=release /p:OutputPath=${env.WORKSPACE}/Super/bin/release /p:Platform=\"Any CPU\""
             }
         }
     }
