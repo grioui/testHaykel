@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testHaykel", "testHaykel\te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "th", "th\th.csproj", "{E1BE124B-0F99-4E0D-8621-B9E1CB2C47B0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1", "1", "{05E66DC8-CC02-45BE-94AE-6AA3976CB112}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2", "2", "{1483FFC2-9DD8-46FA-BE01-A1E412697C4F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3", "3", "{872A75FB-6EFF-4CA3-BD10-E2719734DA0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4", "4", "{4F4E0E71-0265-4D71-A96A-2854DB23FF9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +32,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1483FFC2-9DD8-46FA-BE01-A1E412697C4F} = {05E66DC8-CC02-45BE-94AE-6AA3976CB112}
+		{872A75FB-6EFF-4CA3-BD10-E2719734DA0E} = {1483FFC2-9DD8-46FA-BE01-A1E412697C4F}
+		{4F4E0E71-0265-4D71-A96A-2854DB23FF9C} = {872A75FB-6EFF-4CA3-BD10-E2719734DA0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D383E491-170C-4EB5-A22B-64DE95F2BE5D}
