@@ -8,7 +8,7 @@ properties(
                                     choices    : 'aaa\nbbb',
                                     description: 'select your choice : ',
                                     name       : 'choice1'
-                            ]
+                            ]]]])
 
 pipeline {
   environment {
