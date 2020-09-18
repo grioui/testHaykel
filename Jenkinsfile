@@ -44,7 +44,7 @@ properties([
             omitValueField: true,
             referencedParameters: 'Categories',
             description: 'Test', 
-            name: 'TEST', 
+            name: 'TEST2', 
             randomName: 'choice-parameter-46431548642', 
             script: [
                 $class: 'GroovyScript', 
@@ -89,7 +89,7 @@ pipeline {
 stages {
    stage('Build'){
     steps {
-       echo 'Building..'
+	    echo 'Building..${TEST2}'
       }
     }
    }
