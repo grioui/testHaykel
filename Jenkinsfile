@@ -42,7 +42,7 @@ properties([
  [$class: 'DynamicReferenceParameter', 
             choiceType: 'ET_FORMATTED_HTML',
             omitValueField: true,
-            referencedParameters: '',
+            referencedParameters: 'Categories',
             description: 'Test', 
             name: 'TEST', 
             randomName: 'choice-parameter-46431548642', 
@@ -59,7 +59,17 @@ properties([
                     sandbox: false, 
                     script: 
                         '''
-                        return "<input name=\\"value\\" value=\\"Test\\" class=\\"setting-input\\" type=\\"text\\">" 
+			if(Categories.equals('Vegetables')){
+                             return "<input name=\\"value\\" value=\\"Vegetables\\" class=\\"setting-input\\" type=\\"text\\">" 
+
+     }
+     else if(Categories.equals('Fruits')){
+                                  return "<input name=\\"value\\" value=\\"Fruits\\" class=\\"setting-input\\" type=\\"text\\">" 
+
+     }else{
+                                       return "<input name=\\"value\\" value=\\"default\\" class=\\"setting-input\\" type=\\"text\\">" 
+
+     }
                         '''
                 ]
             ]
