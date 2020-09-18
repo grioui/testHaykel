@@ -90,7 +90,7 @@ stages {
    stage('Build'){
     steps {
 	     echo 'before'
-	    echo ${TEST2}
+	    echo "${TEST2}"
 	     echo 'after'
       }
     }
