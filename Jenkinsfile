@@ -89,7 +89,7 @@ pipeline {
 stages {
    stage('Build'){
     steps {
-	    echo 'Building..${TEST2}'
+	    echo ${TEST2}
       }
     }
    }
