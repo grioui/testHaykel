@@ -1,67 +1,50 @@
-properties([
-    parameters([
-        [$class: 'ChoiceParameter', 
-            choiceType: 'PT_SINGLE_SELECT', 
-            description: 'Select the Env Name from the Dropdown List', 
-            filterLength: 1, 
-            filterable: true, 
-            name: 'Env', 
-            randomName: 'choice-parameter-5631314439613978', 
-            script: [
-                $class: 'GroovyScript', 
-                fallbackScript: [
-                    classpath: [], 
-                    sandbox: false, 
-                    script: 
-                        'return[\'Could not get Env\']'
-                ], 
-                script: [
-                    classpath: [], 
-                    sandbox: false, 
-                    script: 
-                        'return[\'Could not get Env\']'
-                ]
-            ]
-        ], 
-        [$class: 'CascadeChoiceParameter', 
-            choiceType: 'PT_SINGLE_SELECT', 
-            description: 'Select the Server from the Dropdown List', 
-            filterLength: 1, 
-            filterable: true, 
-            name: 'Server', 
-            randomName: 'choice-parameter-5631314456178619', 
-            referencedParameters: 'Env', 
-            script: [
-                $class: 'GroovyScript', 
-                fallbackScript: [
-                    classpath: [], 
-                    sandbox: false, 
-                    script: 
-                        'return[\'Could not get Environment from Env Param\']'
-                ], 
-                script: [
-                    classpath: [], 
-                    sandbox: false, 
-                    script: 
-                        ''' if (Env.equals("Dev")){
-                                return["devaaa001","devaaa002","devbbb001","devbbb002","devccc001","devccc002"]
-                            }
-                            else if(Env.equals("QA")){
-                                return["qaaaa001","qabbb002","qaccc003"]
-                            }
-                            else if(Env.equals("Stage")){
-                                return["staaa001","stbbb002","stccc003"]
-                            }
-                            else if(Env.equals("Prod")){
-                                return["praaa001","prbbb002","prccc003"]
-                            }
-                        '''
-                ]
-            ]
-        ]
-    ])
-])
+// YOU HAVE TO :
+// 1. install the Extended Choice Parameter Plugin : https://wiki.jenkins.io/display/JENKINS/Extended+Choice+Parameter+plugin
+// 2. Allow the instanciation of ExtendedChoiceParameterDefinition in you script approval admin page https://myjenkins/scriptApproval/
 
+List params = []
+List props = []
+
+// https://github.com/jenkinsci/extended-choice-parameter-plugin/blob/master/src/main/java/com/cwctravel/hudson/plugins/extended_choice_parameter/ExtendedChoiceParameterDefinition.java#L427
+// https://issues.jenkins-ci.org/browse/JENKINS-34617
+
+com.cwctravel.hudson.plugins.extended_choice_parameter.ExtendedChoiceParameterDefinition test = new com.cwctravel.hudson.plugins.extended_choice_parameter.ExtendedChoiceParameterDefinition(
+        "name",
+        "PT_CHECKBOX",
+        "VALUE, A, B",
+        null,//project name
+        null,
+        null,
+        null,
+        null,// bindings
+        null,
+        null, // propertykey
+        "VALUE, B", //default value
+        null,
+        null,
+        null,
+        null, //default bindings
+        null,
+        null,
+        null, //descriptionPropertyValue
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,// javascript file
+        null, // javascript
+        false, // save json param to file
+        false, // quote
+        2, // visible item count
+        "DESC",
+        ","
+    )
+params << test
+props << parameters(params)
+
+properties(props)
 pipeline {
   environment {
          vari = ""
