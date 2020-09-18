@@ -19,7 +19,7 @@ properties([
                     classpath: [], 
                     sandbox: false, 
                     script: 
-                        return[1,2,3,4]
+                        'return[\'Could not get Env\']'
                 ]
             ]
         ], 
