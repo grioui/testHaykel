@@ -40,7 +40,6 @@ def BuildParameters()
     string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
   }
   }
- helpers = new Helpers()
 pipeline {
     agent any
   
