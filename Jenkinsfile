@@ -35,7 +35,7 @@ class Helpers
 pipeline {
     agent any
   parameters{ 
-    helpers = new Helpers()
+   def helpers = new Helpers()
     return helpers.BuildParameters()
   }
 
