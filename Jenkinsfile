@@ -31,6 +31,15 @@ class Helpers
   }
   }
 }
+def BuildParameters()
+  {
+      return {
+    choice(name: 'BuildConfiguration', choices: ['Release', 'Debug'], description: 'Configuration de la solution')
+    choice(name: 'BuildPlatforme', choices: ['x86', 'x64','Any CPU'], description: 'Plateforme de la solution')
+    string(name: 'gitLabProjectId', defaultValue: '27')
+    string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
+  }
+  }
  helpers = new Helpers()
 pipeline {
     agent any
@@ -38,7 +47,7 @@ pipeline {
   environment {
        
     
-    parameters=  helpers.BuildParameters()
+    parameters=  BuildParameters()
     }
 
 stages {
