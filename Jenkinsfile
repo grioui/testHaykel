@@ -5,7 +5,6 @@ class Constants {
   static final String recetteServer = 'reclpo03.srr.fr'
   static final String productionServer = 'weblpo02.srr.fr'
 
-
   static final String ScriptToDefineServerName = 
   '''
   def serverName = ''
@@ -20,7 +19,7 @@ class Constants {
   {
     serverName=${productionServer}
   }
-  return "<input name=\\"value\\" value=\\"${serverName}\\" class=\\"setting-input\\" type=\\"text\\">"
+  return "<input name=\\"value\\" value=\\"${serverName}\\" type=\\"text\\">"
   '''
 }
 
