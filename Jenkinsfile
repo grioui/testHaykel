@@ -19,7 +19,7 @@ class Constants {
   {
     serverName="''' + productionServer + '''"
   }
-  return "<input name=\\"value\\" value=\\""+$(serverName)+"\\" type=\\"text\\">"
+  return "<input name='value' value='${serverName}' type='text'>" 
   '''
 }
 
