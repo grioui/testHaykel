@@ -10,16 +10,16 @@ class Constants {
   def serverName = ''
   if(Categories.equals('Dev'))
   {
-    serverName=''' + devServer + '''
+    serverName="''' + devServer + '''"
   }
   else if(Categories.equals('Recette'))
   {
-    serverName=''' + recetteServer + '''
+    serverName="''' + recetteServer + '''"
   }else
   {
-    serverName=''' + productionServer + '''
+    serverName="''' + productionServer + '''"
   }
-  return "<input name=\\"value\\" value=\\"${serverName}\\" type=\\"text\\">"
+  return "<input name=\\"value\\" value=\\"+serverName+\\" type=\\"text\\">"
   '''
 }
 
