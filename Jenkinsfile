@@ -22,9 +22,9 @@ class CIDetails {
 }
 
 class Helpers {
-List category_list = ["\"Select:selected\"", "\"Vegetables\"", "\"Fruits\""]
-List fruits_list = ["\"apple:selected\""]
-List vegetables_list = ["\"potato:selected\""]
+  static List category_list = ["\"Select:selected\"", "\"Vegetables\"", "\"Fruits\""]
+  static List fruits_list = ["\"apple:selected\""]
+  static List vegetables_list = ["\"potato:selected\""]
 }
 
 String categories = buildScript(Helpers.category_list)
