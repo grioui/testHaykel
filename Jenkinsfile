@@ -38,7 +38,7 @@ pipeline {
   //  def helpers = new Helpers()
   //   return helpers.BuildParameters()
   // }
-  properties(
+  options(
     [
         parameters(
             [string(defaultValue: '/data', name: 'Directory'),
@@ -46,7 +46,7 @@ pipeline {
             )
 
     ]
-    ) 
+    )
 stages {
    stage('Build'){
     steps {
