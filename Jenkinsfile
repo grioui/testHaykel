@@ -8,11 +8,11 @@ class Constants {
   static final String ScriptToDefineServerName = 
   '''
   def serverName = ''
-  if(Categories.equals('Dev'))
+  if(ServerList.equals('Dev'))
   {
     serverName="''' + devServer + '''"
   }
-  else if(Categories.equals('Recette'))
+  else if(ServerList.equals('Recette'))
   {
     serverName="''' + recetteServer + '''"
   }else
