@@ -49,7 +49,8 @@ default "
      """
 }
 properties([
-parameters([[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'Categories', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script: [classpath: [], sandbox: false, script: categories]]], [$class: 'DynamicReferenceParameter', choiceType: 'ET_TEXT_BOX', name: 'SNAPSHOT', omitValueField: true, randomName: 'choice-parameter-18754605303716994', referencedParameters: 'Categories', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script: [classpath: [], sandbox: false, script: items]]], [$class: 'DynamicReferenceParameter', choiceType: 'ET_FORMATTED_HTML', omitValueField: true, referencedParameters: 'Categories', description: 'Test', name: 'TEST2', randomName: 'choice-parameter-46431548642', script: [
+parameters([[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'Categories', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script: [classpath: [], sandbox: false, script: categories]]], 
+[$class: 'DynamicReferenceParameter', choiceType: 'ET_FORMATTED_HTML', omitValueField: true, referencedParameters: 'Categories', description: 'Test', name: 'TEST2', randomName: 'choice-parameter-46431548642', script: [
 $class: 'GroovyScript', fallbackScript: [
 classpath: [], sandbox: true, script: 'return[\'Could not get any info\']'], script: [
 classpath: [], sandbox: false, script: '''
