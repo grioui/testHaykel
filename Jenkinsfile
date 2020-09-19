@@ -42,9 +42,16 @@ def BuildParameters()
   }
 pipeline {
     agent any
-  parameters{ 
-  return BuildParameters()
-  }
+properties([
+  [$class: 'ParametersDefinitionProperty',
+    parameterDefinitions: [
+      [$class: 'StringParameterDefinition',
+        name: 'SOME_PARAMETER',
+        defaultValue: 'some value',
+        description: 'A test parameter']]
+  ]
+])
+
 
 stages {
    stage('Build'){
