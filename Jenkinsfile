@@ -34,7 +34,7 @@ class Helpers
 
 pipeline {
     agent any
-    def helpers = new Helpers()
+    helpers = new Helpers()
     parameters = helpers.BuildParameters()
 
 stages {
