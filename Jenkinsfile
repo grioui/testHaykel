@@ -31,27 +31,13 @@ class Helpers
   }
   }
 }
-def BuildParameters()
-  {
-      return {
+
+pipeline {
     choice(name: 'BuildConfiguration', choices: ['Release', 'Debug'], description: 'Configuration de la solution')
     choice(name: 'BuildPlatforme', choices: ['x86', 'x64','Any CPU'], description: 'Plateforme de la solution')
     string(name: 'gitLabProjectId', defaultValue: '27')
     string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
   }
-  }
-pipeline {
-    agent any
-properties([
-  [$class: 'ParametersDefinitionProperty',
-    parameterDefinitions: [
-      [$class: 'StringParameterDefinition',
-        name: 'SOME_PARAMETER',
-        defaultValue: 'some value',
-        description: 'A test parameter']]
-  ]
-])
-
 
 stages {
    stage('Build'){
