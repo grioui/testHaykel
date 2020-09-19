@@ -1,3 +1,12 @@
+class Constants {
+
+  static final List ServerList = ["\"Dev:selected\"", "\"Recette\"", "\"Production\""]
+  static final String devServer = 'devcau01.srr.fr'
+  static final String recetteServer = 'reclpo03.srr.fr'
+  static final String productionServer = 'weblpo02.srr.fr'
+
+}
+
 class CIDetails {
 
   String Project
@@ -22,12 +31,14 @@ class CIDetails {
 }
 
 class Helpers {
+
   static List category_list = ["\"Select:selected\"", "\"Vegetables\"", "\"Fruits\""]
   static List fruits_list = ["\"apple:selected\""]
   static List vegetables_list = ["\"potato:selected\""]
+
 }
 
-String categories = buildScript(Helpers.category_list)
+String ServerList = buildScript(Constants.ServerList)
 String vegetables = buildScript(Helpers.vegetables_list)
 String fruits = buildScript(Helpers.fruits_list)
 // Methods to build groovy scripts to populate data
@@ -35,11 +46,25 @@ String buildScript(List values) {
   return "return $values"
 }
 properties([
-parameters([[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'Categories', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script: [classpath: [], sandbox: false, script: categories]]],
+parameters([
+  [
+    $class: 'ChoiceParameter',
+    choiceType: 'PT_SINGLE_SELECT',
+    name: 'ServerList',
+    script: [
+      $class: 'GroovyScript',
+      fallbackScript: [
+        script: 'return ["ERROR"]'
+        ],
+      script: [
+        script: ServerList
+      ]
+    ]
+  ],
 [$class: 'DynamicReferenceParameter',
  choiceType: 'ET_FORMATTED_HTML',
   omitValueField: false,
-   referencedParameters: 'Categories',
+   referencedParameters: 'ServerList',
      name: 'TEST2',
       randomName: 'choice-parameter-46431548642',
        script: [
