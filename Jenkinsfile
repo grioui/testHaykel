@@ -43,7 +43,7 @@ def BuildParameters()
 pipeline {
     agent any
   parameters{ 
-  BuildParameters()
+  return BuildParameters()
   }
 
 stages {
