@@ -34,10 +34,13 @@ class Helpers
 
 pipeline {
     agent any
-  parameters{ 
-  //  def helpers = new Helpers()
-  //   return helpers.BuildParameters()
-  }
+ parameters: [
+                       string(name: 'REFSPEC', value: Change.ref),
+                        string(name: 'BRANCH', value: Change.sha1),
+                        string(name: 'CHANGE_URL', value: Change.url),
+                        string(name: 'MODE', value: mode),
+                        string(name: 'TARGET_BRANCH', value: Change.branch)
+                    ]
 
 stages {
    stage('Build'){
