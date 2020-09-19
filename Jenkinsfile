@@ -5,6 +5,23 @@ class Constants {
   static final String recetteServer = 'reclpo03.srr.fr'
   static final String productionServer = 'weblpo02.srr.fr'
 
+
+  static final String ScriptToDefineServerName = 
+  '''
+  def serverName = ''
+  if(Categories.equals('Dev'))
+  {
+    serverName=${devServer}
+  }
+  else if(Categories.equals('Recette'))
+  {
+    serverName=${recetteServer}
+  }else
+  {
+    serverName=${productionServer}
+  }
+  return "<input name=\\"value\\" value=\\"${serverName}\\" class=\\"setting-input\\" type=\\"text\\">"
+  '''
 }
 
 class CIDetails {
@@ -51,6 +68,7 @@ parameters([
     $class: 'ChoiceParameter',
     choiceType: 'PT_SINGLE_SELECT',
     name: 'ServerList',
+    description:'Serveur',
     script: [
       $class: 'GroovyScript',
       fallbackScript: [
@@ -61,27 +79,22 @@ parameters([
       ]
     ]
   ],
-[$class: 'DynamicReferenceParameter',
- choiceType: 'ET_FORMATTED_HTML',
-  omitValueField: false,
-   referencedParameters: 'ServerList',
-     name: 'TEST2',
-      randomName: 'choice-parameter-46431548642',
-       script: [
-         $class: 'GroovyScript',
-         fallbackScript: [
-           classpath: [], sandbox: true, script: 'return[\'Could not get any info\']'],
-           script: [classpath: [], sandbox: false, script: '''
-            if(Categories.equals('Vegetables'))
-            {return "<input name=\\"value\\" value=\\"Vegetables\\" class=\\"setting-input\\" type=\\"text\\">"}
-              else if(Categories.equals('Fruits')){
-               return "<input name=\\"value\\" value=\\"Fruits\\" class=\\"setting-input\\" type=\\"text\\">"
-
-     }else{
-                                       return "<input name=\\"value\\" value=\\"default\\" class=\\"setting-input\\" type=\\"text\\">"
-
-              }
-                        ''']]]])])
+  [
+    $class: 'DynamicReferenceParameter',
+    choiceType: 'ET_FORMATTED_HTML',
+    omitValueField: false,
+    referencedParameters: 'ServerList',
+    name: 'TEST2',
+    script: [
+      $class: 'GroovyScript',
+      fallbackScript: [
+        classpath: [],
+        sandbox: true,
+        script: 'return[\'Could not get any info\']'],
+        script: [
+          classpath: [],
+           sandbox: false,
+            script: Constants.ScriptToDefineServerName]]]])])
 pipeline {
   agent any
   parameters {
