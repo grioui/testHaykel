@@ -28,33 +28,21 @@ List default_item = ["\"Not Applicable\""]
 String categories = buildScript(category_list)
 String vegetables = buildScript(vegetables_list)
 String fruits = buildScript(fruits_list)
-String items = populateItems(default_item, vegetables_list, fruits_list)
 // Methods to build groovy scripts to populate data
 String buildScript(List values) {
   return "return $values"
 }
-String populateItems(List default_item, List vegetablesList, List fruitsList) {
-  return """if(Categories.equals('Vegetables')){
-     return "
-  Vegetables "
-     }
-     else if(Categories.equals('Fruits')){
-
-     return "
-  Fruits "
-     }else{
-     return "
-default "
-     }
-     """
-}
 properties([
-parameters([[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'Categories', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script: [classpath: [], sandbox: false, script: categories]]], 
+parameters([
+      choice(name: 'BuildConfiguration', choices: ['Release', 'Debug'], description: 'Configuration de la solution2'),
+    choice(name: 'BuildPlatforme', choices: ['x86', 'x64', 'Any CPU'], description: 'Plateforme de la solution'),
+    string(name: 'gitLabProjectId', defaultValue: '27'),
+    string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi'),
+  [$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'Categories', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script: [classpath: [], sandbox: false, script: categories]]], 
 [$class: 'DynamicReferenceParameter',
  choiceType: 'ET_FORMATTED_HTML',
   omitValueField: false,
    referencedParameters: 'Categories',
-    description: 'Test',
      name: 'TEST2',
       randomName: 'choice-parameter-46431548642',
        script: [
@@ -74,12 +62,7 @@ parameters([[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'C
                         ''']]]])])
 pipeline {
   agent any
-  parameters {
-    choice(name: 'BuildConfiguration', choices: ['Release', 'Debug'], description: 'Configuration de la solution')
-    choice(name: 'BuildPlatforme', choices: ['x86', 'x64', 'Any CPU'], description: 'Plateforme de la solution')
-    string(name: 'gitLabProjectId', defaultValue: '27')
-    string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
-  }
+  
 
   stages {
     stage('Build') {
