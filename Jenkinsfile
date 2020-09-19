@@ -34,11 +34,19 @@ class Helpers
 
 pipeline {
     agent any
-  parameters{ 
-   def helpers = new Helpers()
-    return helpers.BuildParameters()
-  }
+  // parameters{ 
+  //  def helpers = new Helpers()
+  //   return helpers.BuildParameters()
+  // }
+  properties(
+    [
+        parameters(
+            [string(defaultValue: '/data', name: 'Directory'),
+             string(defaultValue: 'Dev', name: 'DEPLOY_ENV')]
+            )
 
+    ]
+    ) 
 stages {
    stage('Build'){
     steps {
