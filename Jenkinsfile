@@ -31,13 +31,25 @@ class Helpers
   }
   }
 }
-
-pipeline {
+def BuildParameters()
+  {
+      return {
     choice(name: 'BuildConfiguration', choices: ['Release', 'Debug'], description: 'Configuration de la solution')
     choice(name: 'BuildPlatforme', choices: ['x86', 'x64','Any CPU'], description: 'Plateforme de la solution')
     string(name: 'gitLabProjectId', defaultValue: '27')
     string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
   }
+  }
+pipeline {
+    agent any
+  parameters
+  {
+   choice(name: 'BuildConfiguration', choices: ['Release', 'Debug'], description: 'Configuration de la solution')
+    choice(name: 'BuildPlatforme', choices: ['x86', 'x64','Any CPU'], description: 'Plateforme de la solution')
+    string(name: 'gitLabProjectId', defaultValue: '27')
+    string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
+  }
+  
 
 stages {
    stage('Build'){
