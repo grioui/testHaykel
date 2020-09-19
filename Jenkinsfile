@@ -11,7 +11,7 @@ class Constants {
   def serverName = ''
   if(Categories.equals('Dev'))
   {
-    serverName='''+${devServer}+'''
+    serverName=${devServer}
   }
   else if(Categories.equals('Recette'))
   {
