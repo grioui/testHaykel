@@ -34,13 +34,17 @@ class Helpers
 
 pipeline {
     agent any
- parameters: [
-                       string(name: 'REFSPEC', value: Change.ref),
-                        string(name: 'BRANCH', value: Change.sha1),
-                        string(name: 'CHANGE_URL', value: Change.url),
-                        string(name: 'MODE', value: mode),
-                        string(name: 'TARGET_BRANCH', value: Change.branch)
-                    ]
+  
+  environment {
+    parameters= {
+    string(name: 'DEPLOY_ENV', defaultValue: 'Release', description: 'environnement de deploiement')
+    string(name: 'buildNumber', defaultValue: '-1', description: 'Numero de version de production')
+    booleanParam(name: 'deployToRecette', defaultValue: false, description: 'Deployer en recette ?')
+    booleanParam(name: 'deployToProd', defaultValue: false, description: 'Deployer en production ?')
+    string(name: 'gitLabProjectId', defaultValue: '27')
+    string(name: 'gitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
+  }
+    }
 
 stages {
    stage('Build'){
