@@ -42,12 +42,9 @@ def BuildParameters()
   }
 pipeline {
     agent any
-  
-  environment {
-       
-    
-    parameters=  BuildParameters()
-    }
+  parameters{ 
+  BuildParameters()
+  }
 
 stages {
    stage('Build'){
