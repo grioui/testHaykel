@@ -34,8 +34,10 @@ class Helpers
 
 pipeline {
     agent any
+  parameters{ 
     helpers = new Helpers()
-    parameters: helpers.BuildParameters()
+    return helpers.BuildParameters()
+  }
 
 stages {
    stage('Build'){
