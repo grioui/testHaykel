@@ -31,12 +31,12 @@ class Helpers
   }
   }
 }
-
+ helpers = new Helpers()
 pipeline {
     agent any
   
   environment {
-        helpers = new Helpers()
+       
     
     parameters=  helpers.BuildParameters()
     }
