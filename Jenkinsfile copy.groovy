@@ -1,7 +1,7 @@
 import java.text.SimpleDateFormat
 // Constants Region
 class PiplineParameters {
-  static final String Project = 'Project'
+  static final String Project = 'testHaykel.sln'
   static final String GitLabProjectIdDefaultValue = '27'
   static final String GitLabTokenDefaultValue = 'pW-SiNxUqhEj29ES8Ghi'
   List ProjectTypeList = ['Batch', 'Service', 'WebSite']
@@ -79,8 +79,11 @@ class BuildDetails {
   String EnvToDeploy
   String GitLabToken
   String GitLabProjectId
+  String BranchName
+  String Workspace
+  String OutputPath = "${this.Workspace}/Output/bin/Release"
 
-  BuildDetails(Project, ServerURL, Server, BuildConfiguration, BuildPlatforme, BuildNumber, GitLabToken, GitLabProjectId, ProjectType) {
+  BuildDetails(Project, ServerURL, Server, BuildConfiguration, BuildPlatforme, BuildNumber, GitLabToken, GitLabProjectId, ProjectType, BranchName,Workspace) {
     this.Project = Project
     this.ServerURL = ServerURL
     this.ArchiveDate = getArchiveDate()
@@ -91,6 +94,8 @@ class BuildDetails {
     this.EnvToDeploy = Server
     this.GitLabToken = GitLabToken
     this.GitLabProjectId = GitLabProjectId
+    this.BranchName=BranchName
+    this.Workspace=Workspace
   }
   @NonCPS
   def getArchiveDate() {
@@ -167,13 +172,15 @@ parameters([
 ])])
 
 def initializeBuildDetails() {
-  return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatforme, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType)
+  return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatforme, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME,env.WORKSPACE)
 }
-envbuildDetailstest = initializeBuildDetails()
+buildDetails = initializeBuildDetails()
+
 pipeline {
   agent any
   parameters {
     string(name: 'Project', defaultValue: PiplineParameters.Project, description: PiplineParametersDescription.Project)
+    string(name: 'ProjectFileName', defaultValue: PiplineParameters.Project, description: PiplineParametersDescription.Project)
     choice(name: 'ProjectType', choices: PiplineParameters.ProjectTypeList, description: PiplineParametersDescription.ProjectType)
     choice(name: 'BuildConfiguration', choices: PiplineParameters.BuildConfigurationList, description: PiplineParametersDescription.BuildConfiguration)
     choice(name: 'BuildPlatforme', choices: PiplineParameters.BuildPlateformeList, description: PiplineParametersDescription.BuildPlateforme)
@@ -181,13 +188,31 @@ pipeline {
     string(name: 'GitLabToken', defaultValue: PiplineParameters.GitLabTokenDefaultValue, description: PiplineParametersDescription.GitLabToken)
   }
   stages {
-    stage('Build') {
-      steps {
-        echo 'before'
-        echo envbuildDetailstest.DeployFolder
-        echo envbuildDetailstest.GitLabToken
-        echo 'after'
+    stage('Checkout SCM') {
+      steps 
+      {
+        checkout scm
       }
     }
+    stage('Build') {
+      steps {
+          echo "Building ${buildDetails.Project} from ${buildDetails.BranchName}"
+          bat "nuget restore \"${buildDetails.Project}\""
+          bat "MsBuild.exe \"${buildDetails.Project}\" /p:Configuration=${buildDetails.BuildConfiguration} /p:OutputPath=${buildDetails.OutputPath} /p:Platform=${buildDetails.BuildPlateforme}"
+      }
+    }
+    // stage('Deploy') {
+    //   steps {
+    //       echo "Deploying WebSite to \\\\${Server}\\${specialCharacter}\\Websites\\${project}"
+    //       bat """
+    //       robocopy ${WebBuildPath} \\\\${Server}\\${specialCharacter}\\Websites\\${project} /mir /r:1 /np /nfl /ndl
+    //       IF %ERRORLEVEL% LEQ 3 ( 
+    //           exit 0
+    //       ) ELSE (
+    //           exit 1
+    //       )
+    //       """
+    //   }
+    // }
   }
 }
