@@ -11,6 +11,14 @@ class Constants {
   static final String recetteBatchsFolderName = 'Batchs'
   static final String productionBatchsFolderName = 'Batchs'
 
+  static final String devWebsitesFolderName = 'Websites'
+  static final String recetteWebsitesFolderName = 'Websites'
+  static final String productionWebsitesFolderName = 'Websites'
+
+  static final String devServicesFolderName = 'services'
+  static final String recetteServicesFolderName = 'Services'
+  static final String productionServicesFolderName = 'Services'
+
   static final String archiveFolderName = 'Archive'
   static final String hardDisk = 'd$'
 
@@ -73,11 +81,11 @@ class BuildDetails {
   String GitLabToken
   String GitLabProjectId
 
-  BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId) {  
+  BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId,ProjectType) {  
         this.Project = Project
         this.ServerURL = ServerURL
         this.ArchiveDate = getArchiveDate()
-        this.BatchsFolder = getBatchsFolder(Server)
+        this.BatchsFolder = getBatchsFolder(Server,ProjectType)
         this.BuildConfiguration = BuildConfiguration
         this.BuildPlatforme = BuildPlatforme
         this.BuildNumber = BuildNumber
@@ -93,12 +101,21 @@ class BuildDetails {
       return sdf.format(date)
     }
     @NonCPS
-    def getBatchsFolder(Server)
+    def getBatchsFolder(Server,ProjectType)
     {
       println Constants.devServerName
       println Server
       if(Constants.devServerName==Server)
-        {return Constants.devBatchsFolderName}
+        {
+         if('Batch'==ProjectType)
+        {
+          return Constants.devBatchsFolderName
+        }
+        if('Service'==ProjectType)
+        {
+          return Constants.devServicesFolderName
+        }
+          return Constants.devBatchsFolderName}
       else if(Constants.recetteServerName==Server)
         {return Constants.recetteBatchsFolderName}
       return Constants.productionBatchsFolderName
@@ -141,12 +158,10 @@ parameters([
 
 def initializeBuildDetails()
 {
-   test= new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId)
-    echo test.ServerURL
-    return test
-}
-   envbuildDetailstest= new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId)
+   return new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId,params.ProjectType)
 
+}
+   envbuildDetailstest= initializeBuildDetails()
 pipeline {
   agent any
   parameters {
