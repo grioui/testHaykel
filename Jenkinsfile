@@ -72,6 +72,16 @@ class BuildDetails {
   String GitLabProjectId
 
   BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId) {          
+          echo 'inside BuildDetails'
+          echo BuildNumber
+      echo ServerURL
+      echo Server
+      echo BuildConfiguration
+      echo BuildPlatforme
+      echo GitLabToken
+      echo GitLabProjectId
+      echo 'midkie BuildDetails'
+  //echo params.Project
         this.Project = Project
         this.ServerURL = ServerURL
         this.BatchsFolder = getBatchsFolder(Server)
@@ -82,6 +92,7 @@ class BuildDetails {
         this.EnvToDeploy = Server
         this.GitLabToken = GitLabToken
         this.GitLabProjectId = GitLabProjectId
+        echo 'end BuildDetails'
     }
     def getArchiveDate()
     {
