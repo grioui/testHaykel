@@ -35,8 +35,7 @@ class ConstantsScripts {
   return "<input name='value' class='setting-input' value='${serverName}' type='text'>"
   '''
 }
-class CIDetails {
-
+class BuildDetails {
   String Project
   //serverName
   String ServerURL
@@ -99,7 +98,7 @@ pipeline {
     string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
   }
   environment {
-    serverDetails = getServerDetails()
+    buildDetails = new BuildDetails()
   }
   stages {
     stage('Build') {
