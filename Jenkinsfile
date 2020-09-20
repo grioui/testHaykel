@@ -137,7 +137,7 @@ parameters([
 def initializeBuildDetails()
 {
  
-  echo params
+  echo params.Project
   //return null
   // new BuildDetails(params.Project, ServerURL,Server,params.BuildConfiguration,params.BuildPlatforme,BuildNumber,params.GitLabToken,params.GitLabProjectId)
 }
