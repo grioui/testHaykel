@@ -172,9 +172,23 @@ parameters([
 ])])
 
 def initializeBuildDetails() {
+
+    test= new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatform, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME,env.WORKSPACE)
   println 'avant'
-  println env.WORKSPACE
-  println 'apres'
+      println test.Project
+    println test.ServerURL
+    println test.ArchiveDate
+    println test.DeployFolder
+    println test.BuildConfiguration
+    println test.BuildPlatform
+    println test.BuildNumber
+    println test.EnvToDeploy
+    println test.GitLabToken
+    println test.GitLabProjectId
+    println test.BranchName
+    println test.Workspace
+      println 'apres'
+
   return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatform, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME,env.WORKSPACE)
 }
 buildDetails = initializeBuildDetails()
