@@ -137,7 +137,7 @@ parameters([
 def initializeBuildDetails()
 {
  
-  echo currentBuild.number
+  echo currentBuild.number.toString() 
   echo params.ServerURL
   echo params.Server
   echo params.BuildConfiguration
