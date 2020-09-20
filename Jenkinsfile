@@ -136,10 +136,8 @@ parameters([
 
 def initializeBuildDetails()
 {
-  echo params
-  echo ServerURL
-  echo Server
-  echo BuildNumber
+ 
+  echo $ServerURL
   //return null
   // new BuildDetails(params.Project, ServerURL,Server,params.BuildConfiguration,params.BuildPlatforme,BuildNumber,params.GitLabToken,params.GitLabProjectId)
 }
