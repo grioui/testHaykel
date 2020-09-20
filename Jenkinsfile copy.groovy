@@ -1,12 +1,21 @@
 import java.text.SimpleDateFormat
 class Constants {
-
   static final String Project = 'Project'
-
+  static final List ProjectTypeList = ['Batch', 'Service', 'WebSite']
+  static final List BuildConfigurationList = ['Release', 'Debug']
+  static final List BuildPlateformeList = ['x86', 'x64', 'Any CPU']
+  static final String GitLabProjectIdDefaultValue = '27'
+  static final String GitLabTokenDefaultValue = 'pW-SiNxUqhEj29ES8Ghi'
+}
+class ConstantsServer {
   static final String devServerName = 'Dev'
   static final String recetteServerName = 'Recette'
   static final String productionServerName = 'Production'
-
+  static final String devServer = 'devcau01.srr.fr'
+  static final String recetteServer = 'reclpo03.srr.fr'
+  static final String productionServer = 'weblpo02.srr.fr'
+}
+class ConstantsFolders {
   static final String devBatchsFolderName = 'Batch'
   static final String recetteBatchsFolderName = 'Batchs'
   static final String productionBatchsFolderName = 'Batchs'
@@ -21,18 +30,6 @@ class Constants {
 
   static final String archiveFolderName = 'Archive'
   static final String hardDisk = 'd$'
-
-  static final List ProjectTypeList = ['Batch', 'Service', 'WebSite']
-
-  static final String devServer = 'devcau01.srr.fr'
-  static final String recetteServer = 'reclpo03.srr.fr'
-  static final String productionServer = 'weblpo02.srr.fr'
-
-  static final List BuildConfigurationList = ['Release', 'Debug']
-  static final List BuildPlateformeList = ['x86', 'x64', 'Any CPU']
-
-  static final String GitLabProjectIdDefaultValue = '27'
-  static final String GitLabTokenDefaultValue = 'pW-SiNxUqhEj29ES8Ghi'
 }
 class ConstantsScripts {
 
@@ -40,30 +37,23 @@ class ConstantsScripts {
     return "return $values"
   }
 
-  static final List ServerList = ["\"" + Constants.devServerName + "\"", "\"" + Constants.recetteServerName + "\"", "\"" + Constants.productionServerName + "\""]
+  static final List ServerList = ["\"" + ConstantsServer.devServerName + "\"", "\"" + ConstantsServer.recetteServerName + "\"", "\"" + ConstantsServer.productionServerName + "\""]
   static String ServerListScript = "return $ServerList"
 
   static final String ScriptToDefineServerName = '''
   def serverName = ''
-  if(Server.equals("''' + Constants.devServerName + '''"))
+  if(Server.equals("''' + ConstantsServer.devServerName + '''"))
   {
-    serverName="''' + Constants.devServer + '''"
+    serverName="''' + ConstantsServer.devServer + '''"
   }
-  else if(Server.equals("''' + Constants.recetteServerName + '''"))
+  else if(Server.equals("''' + ConstantsServer.recetteServerName + '''"))
   {
-    serverName="''' + Constants.recetteServer + '''"
+    serverName="''' + ConstantsServer.recetteServer + '''"
   }else
   {
-    serverName="''' + Constants.productionServer + '''"
+    serverName="''' + ConstantsServer.productionServer + '''"
   }
-  return "<input name='
-  value ' class='
-  setting - input ' value='
-  $ {
-    serverName
-  }
-  ' type='
-  text '>"
+  return "<input name='value' class='setting-input' value='${serverName}' type='text'>"
   '''
 }
 class BuildDetails {
@@ -71,14 +61,14 @@ class BuildDetails {
   //serverName
   String ServerURL
   //serverDeployFolderName
-  String BatchsFolder
+  String DeployFolder
   String ArchiveDate
   String FileName = "${this.Project}-${this.ArchiveDate}"
   //archiveDirectory
-  String ArchiveFolder = "\\\\${this.ServerURL}\\${Constants.archiveFolderName}\\${this.FileName}"
-  String BatchsDeployPath = "\\\\${this.ServerURL}\\${this.HardDisk}\\${this.BatchsFolder}\\${this.Project}"
+  String ArchiveFolder = "\\\\${this.ServerURL}\\${ConstantsFolders.archiveFolderName}\\${this.FileName}"
+  String BatchsDeployPath = "\\\\${this.ServerURL}\\${this.HardDisk}\\${this.DeployFolder}\\${this.Project}"
   //specialCharacter
-  String HardDisk = Constants.hardDisk
+  String HardDisk = ConstantsFolders.hardDisk
   //DEPLOY_ENV
   String BuildConfiguration
   String BuildPlatforme
@@ -91,7 +81,7 @@ class BuildDetails {
     this.Project = Project
     this.ServerURL = ServerURL
     this.ArchiveDate = getArchiveDate()
-    this.BatchsFolder = getBatchsFolder(Server, ProjectType)
+    this.DeployFolder = getDeployFolder(Server, ProjectType)
     this.BuildConfiguration = BuildConfiguration
     this.BuildPlatforme = BuildPlatforme
     this.BuildNumber = BuildNumber
@@ -106,22 +96,32 @@ class BuildDetails {
     return sdf.format(date)
   }
   @NonCPS
-  def getBatchsFolder(Server, ProjectType) {
-    println Constants.devServerName
-    println Server
-    if (Constants.devServerName == Server) {
+  def getDeployFolder(Server, ProjectType) {
+    if (ConstantsServer.devServerName == Server) {
       if ('Batch' == ProjectType) {
-        return Constants.devBatchsFolderName
+        return ConstantsFolders.devBatchsFolderName
       }
       if ('Service' == ProjectType) {
-        return Constants.devServicesFolderName
+        return ConstantsFolders.devServicesFolderName
       }
-      return Constants.devBatchsFolderName
+      return ConstantsFolders.devWebsitesFolderName
     }
-    else if (Constants.recetteServerName == Server) {
-      return Constants.recetteBatchsFolderName
+    else if (ConstantsServer.recetteServerName == Server) {
+      if ('Batch' == ProjectType) {
+        return ConstantsFolders.recetteBatchsFolderName
+      }
+      if ('Service' == ProjectType) {
+        return ConstantsFolders.recetteServicesFolderName
+      }
+      return ConstantsFolders.recetteWebsitesFolderName
     }
-    return Constants.productionBatchsFolderName
+      if ('Batch' == ProjectType) {
+        return ConstantsFolders.productionBatchsFolderName
+      }
+      if ('Service' == ProjectType) {
+        return ConstantsFolders.productionServicesFolderName
+      }
+    return ConstantsFolders.productionWebsitesFolderName
   }
 }
 
@@ -138,7 +138,6 @@ classpath: [], sandbox: false, script: ConstantsScripts.ScriptToDefineServerName
 
 def initializeBuildDetails() {
   return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatforme, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType)
-
 }
 envbuildDetailstest = initializeBuildDetails()
 pipeline {
@@ -151,17 +150,12 @@ pipeline {
     string(name: 'GitLabProjectId', defaultValue: Constants.GitLabProjectIdDefaultValue)
     string(name: 'GitLabToken', defaultValue: Constants.GitLabTokenDefaultValue)
   }
-  environment {
-    envbuildDetails = initializeBuildDetails()
-    ServerURL = "${envbuildDetails.ServerURL}"
-  }
   stages {
     stage('Build') {
       steps {
         echo 'before'
-        echo envbuildDetailstest.ServerURL
+        echo envbuildDetailstest.DeployFolder
         echo envbuildDetailstest.GitLabToken
-        echo ServerURL
         echo 'after'
       }
     }
