@@ -158,7 +158,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'before'
-        echo $envbuildDetails
+        echo envbuildDetails.BuildPlatforme
         echo 'after'
       }
     }
