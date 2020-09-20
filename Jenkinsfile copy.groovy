@@ -81,8 +81,9 @@ class BuildDetails {
   String GitLabProjectId
   String BranchName
   String OutputPath = "/Output/bin/Release"
+  String Workspace
 
-  BuildDetails(Project, ServerURL, Server, BuildConfiguration, BuildPlatform, BuildNumber, GitLabToken, GitLabProjectId, ProjectType, BranchName) {
+  BuildDetails(Project, ServerURL, Server, BuildConfiguration, BuildPlatform, BuildNumber, GitLabToken, GitLabProjectId, ProjectType, BranchName,Workspace) {
     this.Project = Project
     this.ServerURL = ServerURL
     this.ArchiveDate = getArchiveDate()
@@ -94,6 +95,7 @@ class BuildDetails {
     this.GitLabToken = GitLabToken
     this.GitLabProjectId = GitLabProjectId
     this.BranchName=BranchName
+    this.Workspace = Workspace
   }
   @NonCPS
   def getArchiveDate() {
