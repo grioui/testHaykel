@@ -99,8 +99,7 @@ class BuildDetails {
         {return Constants.devBatchsFolderName}
       else if(Constants.recetteServerName==Server)
         {return Constants.recetteBatchsFolderName}
-      else(Constants.productionServerName==Server)
-        {return Constants.productionBatchsFolderName}
+      return Constants.productionBatchsFolderName
     }
 }
 
