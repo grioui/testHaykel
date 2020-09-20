@@ -159,7 +159,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'before'
-        //echo envbuildDetails.BuildPlatforme
+        echo envbuildDetails.ServerURL
         echo 'after'
       }
     }
