@@ -50,7 +50,6 @@ class ConstantsScripts {
   '''
 }
 class BuildDetails {
-  import java.text.SimpleDateFormat
   String Project
   //serverName
   String ServerURL
