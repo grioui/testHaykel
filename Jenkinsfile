@@ -40,11 +40,10 @@ class ConstantsScripts {
     return "return $values"
   }
 
-  static final List ServerList = ["\""+Constants.devServerName+"\"", "\""+Constants.recetteServerName+"\"", "\""+Constants.productionServerName+"\""]
-  static String ServerListScript =  "return $ServerList"
+  static final List ServerList = ["\"" + Constants.devServerName + "\"", "\"" + Constants.recetteServerName + "\"", "\"" + Constants.productionServerName + "\""]
+  static String ServerListScript = "return $ServerList"
 
-  static final String ScriptToDefineServerName =
-  '''
+  static final String ScriptToDefineServerName = '''
   def serverName = ''
   if(Server.equals("''' + Constants.devServerName + '''"))
   {
@@ -57,7 +56,14 @@ class ConstantsScripts {
   {
     serverName="''' + Constants.productionServer + '''"
   }
-  return "<input name='value' class='setting-input' value='${serverName}' type='text'>"
+  return "<input name='
+  value ' class='
+  setting - input ' value='
+  $ {
+    serverName
+  }
+  ' type='
+  text '>"
   '''
 }
 class BuildDetails {
@@ -81,87 +87,60 @@ class BuildDetails {
   String GitLabToken
   String GitLabProjectId
 
-  BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId,ProjectType) {  
-        this.Project = Project
-        this.ServerURL = ServerURL
-        this.ArchiveDate = getArchiveDate()
-        this.BatchsFolder = getBatchsFolder(Server,ProjectType)
-        this.BuildConfiguration = BuildConfiguration
-        this.BuildPlatforme = BuildPlatforme
-        this.BuildNumber = BuildNumber
-        this.EnvToDeploy = Server
-        this.GitLabToken = GitLabToken
-        this.GitLabProjectId = GitLabProjectId  
+  BuildDetails(Project, ServerURL, Server, BuildConfiguration, BuildPlatforme, BuildNumber, GitLabToken, GitLabProjectId, ProjectType) {
+    this.Project = Project
+    this.ServerURL = ServerURL
+    this.ArchiveDate = getArchiveDate()
+    this.BatchsFolder = getBatchsFolder(Server, ProjectType)
+    this.BuildConfiguration = BuildConfiguration
+    this.BuildPlatforme = BuildPlatforme
+    this.BuildNumber = BuildNumber
+    this.EnvToDeploy = Server
+    this.GitLabToken = GitLabToken
+    this.GitLabProjectId = GitLabProjectId
+  }
+  @NonCPS
+  def getArchiveDate() {
+    def date = new Date()
+    def sdf = new SimpleDateFormat("yyyyMMdd")
+    return sdf.format(date)
+  }
+  @NonCPS
+  def getBatchsFolder(Server, ProjectType) {
+    println Constants.devServerName
+    println Server
+    if (Constants.devServerName == Server) {
+      if ('Batch' == ProjectType) {
+        return Constants.devBatchsFolderName
+      }
+      if ('Service' == ProjectType) {
+        return Constants.devServicesFolderName
+      }
+      return Constants.devBatchsFolderName
     }
-    @NonCPS
-    def getArchiveDate()
-    {
-      def date = new Date()
-      def sdf = new SimpleDateFormat("yyyyMMdd")
-      return sdf.format(date)
+    else if (Constants.recetteServerName == Server) {
+      return Constants.recetteBatchsFolderName
     }
-    @NonCPS
-    def getBatchsFolder(Server,ProjectType)
-    {
-      println Constants.devServerName
-      println Server
-      if(Constants.devServerName==Server)
-        {
-         if('Batch'==ProjectType)
-        {
-          return Constants.devBatchsFolderName
-        }
-        if('Service'==ProjectType)
-        {
-          return Constants.devServicesFolderName
-        }
-          return Constants.devBatchsFolderName}
-      else if(Constants.recetteServerName==Server)
-        {return Constants.recetteBatchsFolderName}
-      return Constants.productionBatchsFolderName
-    }
+    return Constants.productionBatchsFolderName
+  }
 }
 
 properties([
-parameters([
-  [
-    $class: 'ChoiceParameter',
-    choiceType: 'PT_SINGLE_SELECT',
-    name: 'Server',
-    description:'Serveur',
-    script: [
-      $class: 'GroovyScript',
-      fallbackScript: [
-        script: 'return ["ERROR"]'
-        ],
-      script: [
-        script: ConstantsScripts.ServerListScript
-      ]
-    ]
-  ],
-  [
-    $class: 'DynamicReferenceParameter',
-    choiceType: 'ET_FORMATTED_HTML',
-    omitValueField: false,
-    referencedParameters: 'Server',
-    name: 'ServerURL',
-    script: [
-      $class: 'GroovyScript',
-      fallbackScript: [
-        classpath: [],
-        sandbox: true,
-        script: 'return[\'Could not get any info\']'],
-        script: [
-          classpath: [],
-           sandbox: false,
-            script: ConstantsScripts.ScriptToDefineServerName]]]])])
+parameters([[
+$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'Server', description: 'Serveur', script: [
+$class: 'GroovyScript', fallbackScript: [
+script: 'return ["ERROR"]'], script: [
+script: ConstantsScripts.ServerListScript]]], [
+$class: 'DynamicReferenceParameter', choiceType: 'ET_FORMATTED_HTML', omitValueField: false, referencedParameters: 'Server', name: 'ServerURL', script: [
+$class: 'GroovyScript', fallbackScript: [
+classpath: [], sandbox: true, script: 'return[\'Could not get any info\']'], script: [
+classpath: [], sandbox: false, script: ConstantsScripts.ScriptToDefineServerName]]]])])
 
-def initializeBuildDetails()
-{
-   return new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId,params.ProjectType)
+def initializeBuildDetails() {
+  return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatforme, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType)
 
 }
-   envbuildDetailstest= initializeBuildDetails()
+envbuildDetailstest = initializeBuildDetails()
 pipeline {
   agent any
   parameters {
@@ -173,8 +152,8 @@ pipeline {
     string(name: 'GitLabToken', defaultValue: Constants.GitLabTokenDefaultValue)
   }
   environment {
-    envbuildDetails=initializeBuildDetails()
-    ServerURL="${envbuildDetails.ServerURL}"
+    envbuildDetails = initializeBuildDetails()
+    ServerURL = "${envbuildDetails.ServerURL}"
   }
   stages {
     stage('Build') {
