@@ -83,13 +83,13 @@ class BuildDetails {
   String Workspace
   String OutputPath = "${this.Workspace}/Output/bin/Release"
 
-  BuildDetails(Project, ServerURL, Server, BuildConfiguration, BuildPlatforme, BuildNumber, GitLabToken, GitLabProjectId, ProjectType, BranchName,Workspace) {
+  BuildDetails(Project, ServerURL, Server, BuildConfiguration, BuildPlatform, BuildNumber, GitLabToken, GitLabProjectId, ProjectType, BranchName,Workspace) {
     this.Project = Project
     this.ServerURL = ServerURL
     this.ArchiveDate = getArchiveDate()
     this.DeployFolder = getDeployFolder(Server, ProjectType)
     this.BuildConfiguration = BuildConfiguration
-    this.BuildPlatforme = BuildPlatforme
+    this.BuildPlatform = BuildPlatform
     this.BuildNumber = BuildNumber
     this.EnvToDeploy = Server
     this.GitLabToken = GitLabToken
@@ -172,7 +172,7 @@ parameters([
 ])])
 
 def initializeBuildDetails() {
-  return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatforme, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME,env.WORKSPACE)
+  return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatform, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME,env.WORKSPACE)
 }
 buildDetails = initializeBuildDetails()
 
@@ -183,7 +183,7 @@ pipeline {
     string(name: 'ProjectFileName', defaultValue: PiplineParameters.Project, description: PiplineParametersDescription.Project)
     choice(name: 'ProjectType', choices: PiplineParameters.ProjectTypeList, description: PiplineParametersDescription.ProjectType)
     choice(name: 'BuildConfiguration', choices: PiplineParameters.BuildConfigurationList, description: PiplineParametersDescription.BuildConfiguration)
-    choice(name: 'BuildPlatforme', choices: PiplineParameters.BuildPlateformList, description: PiplineParametersDescription.BuildPlateform)
+    choice(name: 'BuildPlatform', choices: PiplineParameters.BuildPlateformList, description: PiplineParametersDescription.BuildPlateform)
     string(name: 'GitLabProjectId', defaultValue: PiplineParameters.GitLabProjectIdDefaultValue, description: PiplineParametersDescription.GitLabProjectId)
     string(name: 'GitLabToken', defaultValue: PiplineParameters.GitLabTokenDefaultValue, description: PiplineParametersDescription.GitLabToken)
   }
