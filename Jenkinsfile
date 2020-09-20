@@ -138,7 +138,6 @@ classpath: [], sandbox: false, script: ConstantsScripts.ScriptToDefineServerName
 
 def initializeBuildDetails() {
   return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatforme, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType)
-
 }
 envbuildDetailstest = initializeBuildDetails()
 pipeline {
@@ -151,17 +150,12 @@ pipeline {
     string(name: 'GitLabProjectId', defaultValue: Constants.GitLabProjectIdDefaultValue)
     string(name: 'GitLabToken', defaultValue: Constants.GitLabTokenDefaultValue)
   }
-  environment {
-    envbuildDetails = initializeBuildDetails()
-    ServerURL = "${envbuildDetails.ServerURL}"
-  }
   stages {
     stage('Build') {
       steps {
         echo 'before'
         echo envbuildDetailstest.DeployFolder
         echo envbuildDetailstest.GitLabToken
-        echo ServerURL
         echo 'after'
       }
     }
