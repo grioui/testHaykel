@@ -6,40 +6,33 @@ class Constants {
   static final String devServerName = 'Dev'
   static final String recetteServerName = 'Recette'
   static final String productionServerName = 'Production'
-  static final String devServer = 'devcau01.srr.fr'
-  static final String recetteServer = 'reclpo03.srr.fr'
-  static final String productionServer = 'weblpo02.srr.fr'
 
   static final String devBatchsFolderName = 'Batch'
   static final String recetteBatchsFolderName = 'Batchs'
   static final String productionBatchsFolderName = 'Batchs'
 
-  static final String devWebsitesFolderName = 'Websites'
-  static final String recetteWebsitesFolderName = 'Websites'
-  static final String productionWebsitesFolderName = 'Websites'
-
-  static final String devServicesFolderName = 'services'
-  static final String recetteServicesFolderName = 'Services'
-  static final String productionServicesFolderName = 'Services'
-
   static final String archiveFolderName = 'Archive'
   static final String hardDisk = 'd$'
 
-  static List BuildConfigurationList = ['Release', 'Debug']
-  //static List ProjectTypeList = ['Batch', 'Service', 'WebSite']
-  enum ProjectTypeEnum{
-  Batch, Service, WebSite
-  }
-  static List BuildPlateformeList = ['x86', 'x64', 'Any CPU']
+  static final String devServer = 'devcau01.srr.fr'
+  static final String recetteServer = 'reclpo03.srr.fr'
+  static final String productionServer = 'weblpo02.srr.fr'
+
+  static final List BuildConfigurationList = ['Release', 'Debug']
+  static final List BuildPlateformeList = ['x86', 'x64', 'Any CPU']
 
   static final String GitLabProjectIdDefaultValue = '27'
   static final String GitLabTokenDefaultValue = 'pW-SiNxUqhEj29ES8Ghi'
 }
 class ConstantsScripts {
 
-  static List ServerList = ["\""+Constants.devServerName+"\"", "\""+Constants.recetteServerName+"\"", "\""+Constants.productionServerName+"\""]
-  static final String ServerListScript =  "return $ServerList"
-  static final String ErrorScript = 'return ["ERROR"]'
+  String buildScript(List values) {
+    return "return $values"
+  }
+
+  static final List ServerList = ["\""+Constants.devServerName+"\"", "\""+Constants.recetteServerName+"\"", "\""+Constants.productionServerName+"\""]
+  static String ServerListScript =  "return $ServerList"
+
   static final String ScriptToDefineServerName =
   '''
   def serverName = ''
@@ -78,11 +71,11 @@ class BuildDetails {
   String GitLabToken
   String GitLabProjectId
 
-  BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId,ProjectType) {  
+  BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId) {  
         this.Project = Project
         this.ServerURL = ServerURL
         this.ArchiveDate = getArchiveDate()
-        this.BatchsFolder = getBatchsFolder(Server,ProjectType)
+        this.BatchsFolder = getBatchsFolder(Server)
         this.BuildConfiguration = BuildConfiguration
         this.BuildPlatforme = BuildPlatforme
         this.BuildNumber = BuildNumber
@@ -98,15 +91,12 @@ class BuildDetails {
       return sdf.format(date)
     }
     @NonCPS
-    def getBatchsFolder(Server,ProjectType)
+    def getBatchsFolder(Server)
     {
+      println Constants.devServerName
+      println Server
       if(Constants.devServerName==Server)
-      {
-        if(ProjectTypeEnum.Batch==ProjectType)
-        {
-          return Constants.devBatchsFolderName
-        }
-      }
+        {return Constants.devBatchsFolderName}
       else if(Constants.recetteServerName==Server)
         {return Constants.recetteBatchsFolderName}
       return Constants.productionBatchsFolderName
@@ -123,7 +113,7 @@ parameters([
     script: [
       $class: 'GroovyScript',
       fallbackScript: [
-        script: ConstantsScripts.ErrorScript
+        script: 'return ["ERROR"]'
         ],
       script: [
         script: ConstantsScripts.ServerListScript
@@ -141,36 +131,39 @@ parameters([
       fallbackScript: [
         classpath: [],
         sandbox: true,
-        script: ConstantsScripts.ErrorScript,
+        script: 'return[\'Could not get any info\']'],
         script: [
           classpath: [],
-          sandbox: false,
-          script: ConstantsScripts.ScriptToDefineServerName
-          ]
-      ]]])])
+           sandbox: false,
+            script: ConstantsScripts.ScriptToDefineServerName]]]])])
 
 def initializeBuildDetails()
 {
-   return new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId)
+   test= new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId)
+    echo test.ServerURL
+    return test
 }
+   envbuildDetailstest= new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId)
 
-buildDetails= initializeBuildDetails()
 pipeline {
   agent any
   parameters {
-    string(name: 'Project', defaultValue: Constants.Project, description: 'Nom du projet ou de la solution')
-    choice(name: 'ProjectType', choices: Constants.ProjectTypeEnum.values(), description: 'Type de projet')
+    string(name: 'Project', defaultValue: Constants.Project)
     choice(name: 'BuildConfiguration', choices: Constants.BuildConfigurationList, description: 'Configuration de la solution')
     choice(name: 'BuildPlatforme', choices: Constants.BuildPlateformeList, description: 'Plateforme de la solution')
-    string(name: 'GitLabProjectId', defaultValue: Constants.GitLabProjectIdDefaultValue, description: 'Id du projet gitlab')
-    string(name: 'GitLabToken', defaultValue: Constants.GitLabTokenDefaultValue, description: 'Token gitlab')
+    string(name: 'GitLabProjectId', defaultValue: Constants.GitLabProjectIdDefaultValue)
+    string(name: 'GitLabToken', defaultValueNonCPS: Constants.GitLabTokenDefaultValue)
+  }
+  environment {
+    envbuildDetails=initializeBuildDetails()
+    ServerURL="${envbuildDetails.ServerURL}"
   }
   stages {
     stage('Build') {
       steps {
         echo 'before'
-        echo buildDetails.ServerURL
-        echo buildDetails.GitLabToken
+        echo envbuildDetailstest.ServerURL
+        echo envbuildDetailstest.GitLabToken
         echo ServerURL
         echo 'after'
       }
