@@ -1,28 +1,40 @@
 class Constants {
 
-  static final List ServerList = ["\"Dev:selected\"", "\"Recette\"", "\"Production\""]
+  static final String devServerName = 'Dev'
+  static final String recetteServerName = 'Recette'
+  static final String productionServerName = 'Production'
+
   static final String devServer = 'devcau01.srr.fr'
   static final String recetteServer = 'reclpo03.srr.fr'
   static final String productionServer = 'weblpo02.srr.fr'
 
-  static final String ScriptToDefineServerName = 
+}
+class ConstantsScripts {
+
+  String buildScript(List values) {
+    return "return $values"
+  }
+
+  static final List ServerList = [Constants.devServerName, Constants.recetteServerName, Constants.productionServerName]
+  static String ServerListScript =  "return $ServerList"
+
+  static final String ScriptToDefineServerName =
   '''
   def serverName = ''
-  if(ServerList.equals('Dev'))
+  if(ServerList.equals("''' + Constants.devServerName + '''"))
   {
-    serverName="''' + devServer + '''"
+    serverName="''' + Constants.devServer + '''"
   }
-  else if(ServerList.equals('Recette'))
+  else if(ServerList.equals("''' + Constants.recetteServerName + '''"))
   {
-    serverName="''' + recetteServer + '''"
+    serverName="''' + Constants.recetteServer + '''"
   }else
   {
-    serverName="''' + productionServer + '''"
+    serverName="''' + Constants.productionServer + '''"
   }
-  return "<input name='value' value='${serverName}' type='text'>"
+  return "<input name='value' class='setting-input' value='${serverName}' type='text'>"
   '''
 }
-
 class CIDetails {
 
   String Project
@@ -43,24 +55,8 @@ class CIDetails {
   String EnvToDeploy
   String GitLabToken
   String GitLabProjectId
-
 }
 
-class Helpers {
-
-  static List category_list = ["\"Select:selected\"", "\"Vegetables\"", "\"Fruits\""]
-  static List fruits_list = ["\"apple:selected\""]
-  static List vegetables_list = ["\"potato:selected\""]
-
-}
-
-String ServerList = buildScript(Constants.ServerList)
-String vegetables = buildScript(Helpers.vegetables_list)
-String fruits = buildScript(Helpers.fruits_list)
-// Methods to build groovy scripts to populate data
-String buildScript(List values) {
-  return "return $values"
-}
 properties([
 parameters([
   [
@@ -74,7 +70,7 @@ parameters([
         script: 'return ["ERROR"]'
         ],
       script: [
-        script: ServerList
+        script: ScriptToDefineServerList.ServerListScript
       ]
     ]
   ],
@@ -102,7 +98,9 @@ pipeline {
     string(name: 'gitLabProjectId', defaultValue: '27')
     string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
   }
-
+  environment {
+    serverDetails = getServerDetails()
+  }
   stages {
     stage('Build') {
       steps {
