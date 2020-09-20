@@ -71,8 +71,7 @@ class BuildDetails {
   String GitLabToken
   String GitLabProjectId
 
-  BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId) {          
-       
+  BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId) {  
         this.Project = Project
         this.ServerURL = ServerURL
         this.BatchsFolder = getBatchsFolder(Server)
@@ -85,12 +84,14 @@ class BuildDetails {
         this.GitLabProjectId = GitLabProjectId
         
     }
+    @NonCPS
     def getArchiveDate()
     {
       def date = new Date()
       def sdf = new SimpleDateFormat("yyyyMMdd")
       return sdf.format(date)
     }
+    @NonCPS
     def getBatchsFolder(String Server)
     {
       if(Constants.devServerName==Server)
