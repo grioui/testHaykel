@@ -70,7 +70,7 @@ class BuildDetails {
   String FileName = "${this.Project}-${this.ArchiveDate}"
   //archiveDirectory
   String ArchiveFolder = "\\\\${this.ServerURL}\\${Constants.archiveFolderName}\\${this.FileName}"
-  String BatchsDeployPath = "\\\\${this.ServerURL}\\${this.HardDisk}\\${this.BatchsFolder}\\${this.Project}"
+  String BatchsDeployPath = "\\\\${this.ServerURL}\\${this.HardDisk}\\${this.DeployFolder}\\${this.Project}"
   //specialCharacter
   String HardDisk = Constants.hardDisk
   //DEPLOY_ENV
