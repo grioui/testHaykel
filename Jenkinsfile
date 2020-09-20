@@ -71,7 +71,7 @@ class BuildDetails {
   //serverName
   String ServerURL
   //serverDeployFolderName
-  String BatchsFolder
+  String DeployFolder
   String ArchiveDate
   String FileName = "${this.Project}-${this.ArchiveDate}"
   //archiveDirectory
@@ -91,7 +91,7 @@ class BuildDetails {
     this.Project = Project
     this.ServerURL = ServerURL
     this.ArchiveDate = getArchiveDate()
-    this.BatchsFolder = getBatchsFolder(Server, ProjectType)
+    this.DeployFolder = getDeployFolder(Server, ProjectType)
     this.BuildConfiguration = BuildConfiguration
     this.BuildPlatforme = BuildPlatforme
     this.BuildNumber = BuildNumber
@@ -106,7 +106,7 @@ class BuildDetails {
     return sdf.format(date)
   }
   @NonCPS
-  def getBatchsFolder(Server, ProjectType) {
+  def getDeployFolder(Server, ProjectType) {
     println Constants.devServerName
     println Server
     if (Constants.devServerName == Server) {
@@ -119,6 +119,12 @@ class BuildDetails {
       return Constants.devBatchsFolderName
     }
     else if (Constants.recetteServerName == Server) {
+      if ('Batch' == ProjectType) {
+        return Constants.recetteBatchsFolderName
+      }
+      if ('Service' == ProjectType) {
+        return Constants.recetteServicesFolderName
+      }
       return Constants.recetteBatchsFolderName
     }
     return Constants.productionBatchsFolderName
@@ -159,7 +165,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'before'
-        echo envbuildDetailstest.ServerURL
+        echo envbuildDetailstest.DeployFolder
         echo envbuildDetailstest.GitLabToken
         echo ServerURL
         echo 'after'
