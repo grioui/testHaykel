@@ -75,7 +75,7 @@ class BuildDetails {
         this.Project = Project
         this.ServerURL = ServerURL
         this.ArchiveDate = getArchiveDate()
-        //this.BatchsFolder = getBatchsFolder(Server)
+        this.BatchsFolder = getBatchsFolder(Server)
         this.BuildConfiguration = BuildConfiguration
         this.BuildPlatforme = BuildPlatforme
         this.BuildNumber = BuildNumber
@@ -91,7 +91,7 @@ class BuildDetails {
       return sdf.format(date)
     }
     @NonCPS
-    def getBatchsFolder(String Server)
+    def getBatchsFolder(Server)
     {
       println Constants.devServerName
       println Server
