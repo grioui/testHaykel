@@ -154,7 +154,7 @@ pipeline {
   }
   environment {
     envbuildDetails=initializeBuildDetails()
-    ServerURL=envbuildDetails.ServerURL
+    ServerURL="${envbuildDetails.ServerURL}"
   }
   stages {
     stage('Build') {
