@@ -162,6 +162,7 @@ pipeline {
       steps {
         echo 'before'
         echo envbuildDetailstest.ServerURL
+        echo envbuildDetailstest.GitLabToken
         echo ServerURL
         echo 'after'
       }
