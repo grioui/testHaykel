@@ -90,7 +90,10 @@ parameters([
            sandbox: false,
             script: ConstantsScripts.ScriptToDefineServerName]]]])])
 
-def buildDetails = new BuildDetails()
+def initializeBuildDetails()
+{
+  echo 'initializeBuildDetails'
+  return new BuildDetails()}
 
 pipeline {
   agent any
