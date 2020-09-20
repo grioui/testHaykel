@@ -160,6 +160,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'before'
+        echo env.envbuildDetails
         echo ServerURL
         echo 'after'
       }
