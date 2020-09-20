@@ -75,7 +75,7 @@ class BuildDetails {
         this.Project = Project
         this.ServerURL = ServerURL
         this.ArchiveDate = getArchiveDate()
-        this.BatchsFolder = getBatchsFolder(Server)
+        //this.BatchsFolder = getBatchsFolder(Server)
         this.BuildConfiguration = BuildConfiguration
         this.BuildPlatforme = BuildPlatforme
         this.BuildNumber = BuildNumber
