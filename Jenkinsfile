@@ -104,7 +104,7 @@ pipeline {
     string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
   }
   environment {
-    envbuildDetails=buildDetails
+    envbuildDetails=initializeBuildDetails()
   }
   stages {
     stage('Build') {
