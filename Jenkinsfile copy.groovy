@@ -89,7 +89,7 @@ parameters([
         script: [
           classpath: [],
            sandbox: false,
-            script: Constants.ScriptToDefineServerName]]]])])
+            script: ConstantsScripts.ScriptToDefineServerName]]]])])
 pipeline {
   agent any
   parameters {
