@@ -4,9 +4,9 @@ class PiplineParameters {
   static final String Project = 'testHaykel.sln'
   static final String GitLabProjectIdDefaultValue = '27'
   static final String GitLabTokenDefaultValue = 'pW-SiNxUqhEj29ES8Ghi'
-  List ProjectTypeList = ['Batch', 'Service', 'WebSite']
-  List BuildConfigurationList = ['Release', 'Debug']
-  List BuildPlateformeList = ['x86', 'x64', 'Any CPU']
+  static List ProjectTypeList = ['Batch', 'Service', 'WebSite']
+  static List BuildConfigurationList = ['Release', 'Debug']
+  static List BuildPlateformeList = ['x86', 'x64', 'Any CPU']
 }
 class PiplineParametersDescription {
   static final String Project = 'Nom du csproj ou du sln'
@@ -17,7 +17,7 @@ class PiplineParametersDescription {
   static final String GitLabToken = 'Token GitLab'
 }
 class PiplineScriptsParameters {
-  List ServerList = ["\"" + ServerDetails.devServerName + "\"", "\"" + ServerDetails.recetteServerName + "\"", "\"" + ServerDetails.productionServerName + "\""]
+  static List ServerList = ["\"" + ServerDetails.devServerName + "\"", "\"" + ServerDetails.recetteServerName + "\"", "\"" + ServerDetails.productionServerName + "\""]
   static String ServerListScript = "return $ServerList"
   static String ErrorScript = 'return ["ERROR"]'
   static final String ScriptToDefineServerName = '''
