@@ -1,8 +1,8 @@
 class Constants {
 
-  static final String devServerName = "\"Dev\""
-  static final String recetteServerName = "\"Recette\""
-  static final String productionServerName = "\"Production\""
+  static final String devServerName = 'Dev'
+  static final String recetteServerName = 'Recette'
+  static final String productionServerName = 'Production'
 
   static final String devServer = 'devcau01.srr.fr'
   static final String recetteServer = 'reclpo03.srr.fr'
@@ -15,7 +15,7 @@ class ConstantsScripts {
     return "return $values"
   }
 
-  static final List ServerList = [Constants.devServerName, Constants.recetteServerName, Constants.productionServerName]
+  static final List ServerList = ["\""+Constants.devServerName+"\"", "\""+Constants.recetteServerName+"\"", "\""+Constants.productionServerName+"\""]
   static String ServerListScript =  "return $ServerList"
 
   static final String ScriptToDefineServerName =
