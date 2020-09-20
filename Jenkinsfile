@@ -8,6 +8,15 @@ class PiplineParameters {
   static final String GitLabProjectIdDefaultValue = '27'
   static final String GitLabTokenDefaultValue = 'pW-SiNxUqhEj29ES8Ghi'
 }
+class PiplineParametersDescription {
+  static final String Project = 'Nom du csproj ou du sln'
+  static final List ProjectType = 'Type de projet'
+  static final List BuildConfiguration = 'Configuration de la solution'
+  static final List BuildPlateforme = 'Plateforme de la solution'
+  static final String GitLabProjectId = 'Id du projet GitLab'
+  static final String GitLabToken = 'Token GitLab'
+}
+
 class PiplineScriptsParameters {
   static List ServerList = ["\"" + ServerDetails.devServerName + "\"", "\"" + ServerDetails.recetteServerName + "\"", "\"" + ServerDetails.productionServerName + "\""]
   static String ServerListScript = "return $ServerList"
@@ -121,15 +130,42 @@ class BuildDetails {
 }
 
 properties([
-parameters([[
-$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'Server', description: 'Serveur', script: [
-$class: 'GroovyScript', fallbackScript: [
-script: PiplineScriptsParameters.ErrorScript], script: [
-script: PiplineScriptsParameters.ServerListScript]]], [
-$class: 'DynamicReferenceParameter', choiceType: 'ET_FORMATTED_HTML', omitValueField: false, referencedParameters: 'Server', name: 'ServerURL', script: [
-$class: 'GroovyScript', fallbackScript: [
-classpath: [], sandbox: true, script: PiplineScriptsParameters.ErrorScript], script: [
-classpath: [], sandbox: false, script: PiplineScriptsParameters.ScriptToDefineServerName]]]])])
+parameters([
+  [
+    $class: 'ChoiceParameter',
+    choiceType: 'PT_SINGLE_SELECT',
+    name: 'Server',
+    description: 'Serveur',
+    script: [
+      $class: 'GroovyScript',
+      fallbackScript: [
+        script: PiplineScriptsParameters.ErrorScript
+        ],
+        script: [
+          script: PiplineScriptsParameters.ServerListScript
+          ]
+    ]
+  ],
+  [
+    $class: 'DynamicReferenceParameter',
+    choiceType: 'ET_FORMATTED_HTML',
+    omitValueField: false,
+    referencedParameters: 'Server',
+    name: 'ServerURL',
+    script: [
+      $class: 'GroovyScript',
+      fallbackScript: [
+        classpath: [],
+        sandbox: true,
+        script: PiplineScriptsParameters.ErrorScript
+      ],
+      script: [
+      sandbox: false,
+      script: PiplineScriptsParameters.ScriptToDefineServerName
+      ]
+    ]
+  ]
+])])
 
 def initializeBuildDetails() {
   return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatforme, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType)
@@ -138,12 +174,12 @@ envbuildDetailstest = initializeBuildDetails()
 pipeline {
   agent any
   parameters {
-    string(name: 'Project', defaultValue: PiplineParameters.Project)
-    choice(name: 'ProjectType', choices: PiplineParameters.ProjectTypeList, description: 'Type de projet')
-    choice(name: 'BuildConfiguration', choices: PiplineParameters.BuildConfigurationList, description: 'Configuration de la solution')
-    choice(name: 'BuildPlatforme', choices: PiplineParameters.BuildPlateformeList, description: 'Plateforme de la solution')
-    string(name: 'GitLabProjectId', defaultValue: PiplineParameters.GitLabProjectIdDefaultValue)
-    string(name: 'GitLabToken', defaultValue: PiplineParameters.GitLabTokenDefaultValue)
+    string(name: 'Project', defaultValue: PiplineParameters.Project, description: PiplineParametersDescription.Project)
+    choice(name: 'ProjectType', choices: PiplineParameters.ProjectTypeList, description: PiplineParametersDescription.ProjectType)
+    choice(name: 'BuildConfiguration', choices: PiplineParameters.BuildConfigurationList, description: PiplineParametersDescription.BuildConfiguration)
+    choice(name: 'BuildPlatforme', choices: PiplineParameters.BuildPlateformeList, description: PiplineParametersDescription.BuildPlateforme)
+    string(name: 'GitLabProjectId', defaultValue: PiplineParameters.GitLabProjectIdDefaultValue, description: PiplineParametersDescription.GitLabProjectId)
+    string(name: 'GitLabToken', defaultValue: PiplineParameters.GitLabTokenDefaultValue, description: PiplineParametersDescription.GitLabToken)
   }
   stages {
     stage('Build') {
