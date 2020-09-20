@@ -138,7 +138,9 @@ parameters([
 
 def initializeBuildDetails()
 {
-   return new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId)
+   test= new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId)
+    ech test.ServerURL
+    return test
 }
 
 pipeline {
@@ -157,7 +159,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'before'
-        echo envbuildDetails.BuildPlatforme
+        //echo envbuildDetails.BuildPlatforme
         echo 'after'
       }
     }
