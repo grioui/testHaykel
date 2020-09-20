@@ -2,11 +2,11 @@ import java.text.SimpleDateFormat
 // Constants Region
 class PiplineParameters {
   static final String Project = 'Project'
-  static final List ProjectTypeList = ['Batch', 'Service', 'WebSite']
-  static final List BuildConfigurationList = ['Release', 'Debug']
-  static final List BuildPlateformeList = ['x86', 'x64', 'Any CPU']
   static final String GitLabProjectIdDefaultValue = '27'
   static final String GitLabTokenDefaultValue = 'pW-SiNxUqhEj29ES8Ghi'
+  List ProjectTypeList = ['Batch', 'Service', 'WebSite']
+  List BuildConfigurationList = ['Release', 'Debug']
+  List BuildPlateformeList = ['x86', 'x64', 'Any CPU']
 }
 class PiplineParametersDescription {
   static final String Project = 'Nom du csproj ou du sln'
@@ -17,7 +17,7 @@ class PiplineParametersDescription {
   static final String GitLabToken = 'Token GitLab'
 }
 class PiplineScriptsParameters {
-  static List ServerList = ["\"" + ServerDetails.devServerName + "\"", "\"" + ServerDetails.recetteServerName + "\"", "\"" + ServerDetails.productionServerName + "\""]
+  List ServerList = ["\"" + ServerDetails.devServerName + "\"", "\"" + ServerDetails.recetteServerName + "\"", "\"" + ServerDetails.productionServerName + "\""]
   static String ServerListScript = "return $ServerList"
   static String ErrorScript = 'return ["ERROR"]'
   static final String ScriptToDefineServerName = '''
