@@ -161,7 +161,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'before'
-        echo envbuildDetailstest
+        echo envbuildDetailstest.ServerURL
         echo ServerURL
         echo 'after'
       }
