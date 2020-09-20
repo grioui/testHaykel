@@ -14,9 +14,8 @@ class Constants {
   static final String archiveFolderName = 'Archive'
   static final String hardDisk = 'd$'
 
-  enum ProjectTypeEnum{
-  Batch, Service, WebSite
-  }
+  static final List ProjectTypeList = ['Batch', 'Service', 'WebSite']
+
   static final String devServer = 'devcau01.srr.fr'
   static final String recetteServer = 'reclpo03.srr.fr'
   static final String productionServer = 'weblpo02.srr.fr'
@@ -152,7 +151,7 @@ pipeline {
   agent any
   parameters {
     string(name: 'Project', defaultValue: Constants.Project)
-    choice(name: 'ProjectType', choices: Constants.ProjectTypeEnum.values()*.name(), description: 'Type de projet')
+    choice(name: 'ProjectType', choices: Constants.ProjectTypeList, description: 'Type de projet')
     choice(name: 'BuildConfiguration', choices: Constants.BuildConfigurationList, description: 'Configuration de la solution')
     choice(name: 'BuildPlatforme', choices: Constants.BuildPlateformeList, description: 'Plateforme de la solution')
     string(name: 'GitLabProjectId', defaultValue: Constants.GitLabProjectIdDefaultValue)
