@@ -152,7 +152,7 @@ pipeline {
     choice(name: 'BuildConfiguration', choices: Constants.BuildConfigurationList, description: 'Configuration de la solution')
     choice(name: 'BuildPlatforme', choices: Constants.BuildPlateformeList, description: 'Plateforme de la solution')
     string(name: 'GitLabProjectId', defaultValue: Constants.GitLabProjectIdDefaultValue)
-    string(name: 'GitLabToken', defaultValueNonCPS: Constants.GitLabTokenDefaultValue)
+    string(name: 'GitLabToken', defaultValue: Constants.GitLabTokenDefaultValue)
   }
   environment {
     envbuildDetails=initializeBuildDetails()
