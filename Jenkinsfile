@@ -89,6 +89,9 @@ parameters([
           classpath: [],
            sandbox: false,
             script: ConstantsScripts.ScriptToDefineServerName]]]])])
+
+def buildDetails = new BuildDetails()
+
 pipeline {
   agent any
   parameters {
@@ -98,7 +101,7 @@ pipeline {
     string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
   }
   environment {
-    buildDetails = new BuildDetails()
+    envbuildDetails=buildDetails
   }
   stages {
     stage('Build') {
