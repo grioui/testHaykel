@@ -82,13 +82,13 @@ class BuildDetails {
         this.GitLabToken = GitLabToken
         this.GitLabProjectId = GitLabProjectId
     }
-    getArchiveDate()
+    def getArchiveDate()
     {
       def date = new Date()
       def sdf = new SimpleDateFormat("yyyyMMdd")
       return sdf.format(date)
     }
-    getBatchsFolder(String Server)
+    def getBatchsFolder(String Server)
     {
       if(Constants.devServerName==Server)
         {return Constants.devBatchsFolderName}
