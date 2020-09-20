@@ -1,8 +1,8 @@
 class Constants {
 
-  static final String devServerName = 'Dev'
-  static final String recetteServerName = 'Recette'
-  static final String productionServerName = 'Production'
+  static final String devServerName = "\"Dev\""
+  static final String recetteServerName = "\"Recette\""
+  static final String productionServerName = "\"Production\""
 
   static final String devServer = 'devcau01.srr.fr'
   static final String recetteServer = 'reclpo03.srr.fr'
@@ -90,7 +90,10 @@ parameters([
            sandbox: false,
             script: ConstantsScripts.ScriptToDefineServerName]]]])])
 
-def buildDetails = new BuildDetails()
+def initializeBuildDetails()
+{
+  echo 'initializeBuildDetails'
+  return new BuildDetails()}
 
 pipeline {
   agent any
@@ -101,7 +104,7 @@ pipeline {
     string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
   }
   environment {
-    envbuildDetails=buildDetails
+    envbuildDetails=initializeBuildDetails()
   }
   stages {
     stage('Build') {

@@ -1,8 +1,8 @@
 class Constants {
 
-  static final String devServerName = 'Dev'
-  static final String recetteServerName = 'Recette'
-  static final String productionServerName = 'Production'
+  static final String devServerName = "\"Dev\""
+  static final String recetteServerName = "\"Recette\""
+  static final String productionServerName = "\"Production\""
 
   static final String devServer = 'devcau01.srr.fr'
   static final String recetteServer = 'reclpo03.srr.fr'
