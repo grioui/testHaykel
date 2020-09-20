@@ -134,7 +134,7 @@ parameters([
            sandbox: false,
             script: ConstantsScripts.ScriptToDefineServerName]]]])])
 
-def initializeBuildDetails(params,ServerURL,Server,BuildNumber)
+def initializeBuildDetails()
 {
   echo params
   echo ServerURL
@@ -154,7 +154,7 @@ pipeline {
     string(name: 'GitLabToken', defaultValue: Constants.GitLabTokenDefaultValue)
   }
   environment {
-    envbuildDetails=initializeBuildDetails($params,$ServerURL,$Server,$currentBuild.number)
+    envbuildDetails=initializeBuildDetails()
   }
   stages {
     stage('Build') {
