@@ -26,11 +26,11 @@ class ConstantsScripts {
   static final String ScriptToDefineServerName =
   '''
   def serverName = ''
-  if(ServerList.equals("''' + Constants.devServerName + '''"))
+  if(Server.equals("''' + Constants.devServerName + '''"))
   {
     serverName="''' + Constants.devServer + '''"
   }
-  else if(ServerList.equals("''' + Constants.recetteServerName + '''"))
+  else if(Server.equals("''' + Constants.recetteServerName + '''"))
   {
     serverName="''' + Constants.recetteServer + '''"
   }else
@@ -66,7 +66,7 @@ parameters([
   [
     $class: 'ChoiceParameter',
     choiceType: 'PT_SINGLE_SELECT',
-    name: 'ServerList',
+    name: 'Server',
     description:'Serveur',
     script: [
       $class: 'GroovyScript',
@@ -82,7 +82,7 @@ parameters([
     $class: 'DynamicReferenceParameter',
     choiceType: 'ET_FORMATTED_HTML',
     omitValueField: false,
-    referencedParameters: 'ServerList',
+    referencedParameters: 'Server',
     name: 'TEST2',
     script: [
       $class: 'GroovyScript',
