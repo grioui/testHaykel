@@ -80,10 +80,9 @@ class BuildDetails {
   String GitLabToken
   String GitLabProjectId
   String BranchName
-  String Workspace
-  String OutputPath = "${this.Workspace}/Output/bin/Release"
+  String OutputPath = "/Output/bin/Release"
 
-  BuildDetails(Project, ServerURL, Server, BuildConfiguration, BuildPlatform, BuildNumber, GitLabToken, GitLabProjectId, ProjectType, BranchName,Workspace) {
+  BuildDetails(Project, ServerURL, Server, BuildConfiguration, BuildPlatform, BuildNumber, GitLabToken, GitLabProjectId, ProjectType, BranchName) {
     this.Project = Project
     this.ServerURL = ServerURL
     this.ArchiveDate = getArchiveDate()
@@ -95,7 +94,6 @@ class BuildDetails {
     this.GitLabToken = GitLabToken
     this.GitLabProjectId = GitLabProjectId
     this.BranchName=BranchName
-    this.Workspace=Workspace
   }
   @NonCPS
   def getArchiveDate() {
@@ -172,29 +170,11 @@ parameters([
 ])])
 
 def initializeBuildDetails() {
-
-    test= new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatform, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME,env.WORKSPACE)
-  println 'avant'
-      println test.Project
-    println test.ServerURL
-    println test.ArchiveDate
-    println test.DeployFolder
-    println test.BuildConfiguration
-    println test.BuildPlatform
-    println test.BuildNumber
-    println test.EnvToDeploy
-    println test.GitLabToken
-    println test.GitLabProjectId
-    println test.BranchName
-    println test.Workspace
-      println 'apres'
-
-  return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatform, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME,env.WORKSPACE)
+    return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatform, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME)
 }
 
-pipeline {
-  buildDetails = initializeBuildDetails()
 
+pipeline {
   agent any
   parameters {
     string(name: 'Project', defaultValue: PiplineParameters.Project, description: PiplineParametersDescription.Project)
@@ -206,6 +186,12 @@ pipeline {
     string(name: 'GitLabToken', defaultValue: PiplineParameters.GitLabTokenDefaultValue, description: PiplineParametersDescription.GitLabToken)
   }
   stages {
+    stage('Initialize') {
+      steps 
+      {
+        buildDetails = initializeBuildDetails()
+      }
+    }
     stage('Checkout SCM') {
       steps 
       {
