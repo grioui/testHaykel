@@ -140,7 +140,8 @@ def initializeBuildDetails(params,ServerURL,Server,BuildNumber)
   println ServerURL
   println Server
   println BuildNumber
-  return new BuildDetails(params.Project, ServerURL,Server,params.BuildConfiguration,params.BuildPlatforme,BuildNumber,params.GitLabToken,params.GitLabProjectId)
+  //return null
+  // new BuildDetails(params.Project, ServerURL,Server,params.BuildConfiguration,params.BuildPlatforme,BuildNumber,params.GitLabToken,params.GitLabProjectId)
 }
 
 pipeline {
