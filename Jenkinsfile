@@ -142,6 +142,7 @@ def initializeBuildDetails()
     echo test.ServerURL
     return test
 }
+   envbuildDetailstest= new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId)
 
 pipeline {
   agent any
@@ -160,7 +161,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'before'
-        echo env.envbuildDetails
+        echo envbuildDetailstest
         echo ServerURL
         echo 'after'
       }
