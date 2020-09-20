@@ -8,6 +8,11 @@ class Constants {
   static final String recetteServer = 'reclpo03.srr.fr'
   static final String productionServer = 'weblpo02.srr.fr'
 
+  static final List BuildConfigurationList = ['Release', 'Debug']
+  static final List BuildPlateformeList = ['x86', 'x64', 'Any CPU']
+
+  static final String GitLabProjectIdDefaultValue = '27'
+  static final String GitLabTokenDefaultValue = 'pW-SiNxUqhEj29ES8Ghi'
 }
 class ConstantsScripts {
 
@@ -92,16 +97,16 @@ parameters([
 
 def initializeBuildDetails()
 {
-  echo 'initializeBuildDetails'
-  return new BuildDetails()}
+  return new BuildDetails()
+}
 
 pipeline {
   agent any
   parameters {
-    choice(name: 'BuildConfiguration', choices: ['Release', 'Debug'], description: 'Configuration de la solution')
-    choice(name: 'BuildPlatforme', choices: ['x86', 'x64', 'Any CPU'], description: 'Plateforme de la solution')
-    string(name: 'gitLabProjectId', defaultValue: '27')
-    string(name: 'GitLabToken', defaultValue: 'pW-SiNxUqhEj29ES8Ghi')
+    choice(name: 'BuildConfiguration', choices: Constants.BuildConfigurationList, description: 'Configuration de la solution')
+    choice(name: 'BuildPlatforme', choices: Constants.BuildPlateformeList, description: 'Plateforme de la solution')
+    string(name: 'GitLabProjectId', defaultValue: Constants.GitLabProjectIdDefaultValue)
+    string(name: 'GitLabToken', defaultValue: Constants.GitLabTokenDefaultValue)
   }
   environment {
     envbuildDetails=initializeBuildDetails()
