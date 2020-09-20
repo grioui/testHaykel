@@ -154,12 +154,13 @@ pipeline {
   }
   environment {
     envbuildDetails=initializeBuildDetails()
+    ServerURL=envbuildDetails.ServerURL
   }
   stages {
     stage('Build') {
       steps {
         echo 'before'
-        echo envbuildDetails.ServerURL
+        echo ServerURL
         echo 'after'
       }
     }
