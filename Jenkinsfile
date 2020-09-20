@@ -136,17 +136,7 @@ parameters([
 
 def initializeBuildDetails()
 {
- 
-  echo currentBuild.number.toString() 
-  echo params.ServerURL
-  echo params.Server
-  echo params.BuildConfiguration
-  echo params.BuildPlatforme
-  echo params.GitLabToken
-  echo params.GitLabProjectId
-  //echo params.Project
-  //return null
-  // new BuildDetails(params.Project, ServerURL,Server,params.BuildConfiguration,params.BuildPlatforme,BuildNumber,params.GitLabToken,params.GitLabProjectId)
+   new BuildDetails(params.Project, params.ServerURL,params.Server,params.BuildConfiguration,params.BuildPlatforme,currentBuild.number.toString(),params.GitLabToken,params.GitLabProjectId)
 }
 
 pipeline {
