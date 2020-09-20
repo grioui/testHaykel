@@ -74,8 +74,8 @@ class BuildDetails {
   BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId) {  
         this.Project = Project
         this.ServerURL = ServerURL
-        this.BatchsFolder = getBatchsFolder(Server)
         this.ArchiveDate = getArchiveDate()
+        this.BatchsFolder = getBatchsFolder(Server)
         this.BuildConfiguration = BuildConfiguration
         this.BuildPlatforme = BuildPlatforme
         this.BuildNumber = BuildNumber
@@ -93,6 +93,8 @@ class BuildDetails {
     @NonCPS
     def getBatchsFolder(String Server)
     {
+      println Constants.devServerName
+      println Server
       if(Constants.devServerName==Server)
         {return Constants.devBatchsFolderName}
       else if(Constants.recetteServerName==Server)
