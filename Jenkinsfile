@@ -1,8 +1,17 @@
 class Constants {
 
+  static final String Project = 'Project'
+
   static final String devServerName = 'Dev'
   static final String recetteServerName = 'Recette'
   static final String productionServerName = 'Production'
+
+  static final String devBatchsFolderName = 'Batch'
+  static final String recetteBatchsFolderName = 'Batchs'
+  static final String productionBatchsFolderName = 'Batchs'
+
+  static final String archiveFolderName = 'Archive'
+  static final String hardDisk = 'd$'
 
   static final String devServer = 'devcau01.srr.fr'
   static final String recetteServer = 'reclpo03.srr.fr'
@@ -41,6 +50,7 @@ class ConstantsScripts {
   '''
 }
 class BuildDetails {
+  import java.text.SimpleDateFormat
   String Project
   //serverName
   String ServerURL
@@ -48,10 +58,11 @@ class BuildDetails {
   String BatchsFolder
   String ArchiveDate
   String FileName = "${this.Project}-${this.ArchiveDate}"
-  String ArchiveFolder
+  //archiveDirectory
+  String ArchiveFolder = "\\\\${this.ServerURL}\\${Constants.archiveFolderName}\\${this.FileName}"
   String BatchsDeployPath = "\\\\${this.ServerURL}\\${this.HardDisk}\\${this.BatchsFolder}\\${this.Project}"
   //specialCharacter
-  String HardDisk
+  String HardDisk = Constants.hardDisk
   //DEPLOY_ENV
   String BuildConfiguration
   String BuildPlatforme
@@ -59,6 +70,34 @@ class BuildDetails {
   String EnvToDeploy
   String GitLabToken
   String GitLabProjectId
+
+  BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId) {          
+        this.Project = Project
+        this.ServerURL = ServerURL
+        this.BatchsFolder = getBatchsFolder(Server)
+        this.ArchiveDate = getArchiveDate()
+        this.BuildConfiguration = BuildConfiguration
+        this.BuildPlatforme = BuildPlatforme
+        this.BuildNumber = BuildNumber
+        this.EnvToDeploy = Server
+        this.GitLabToken = GitLabToken
+        this.GitLabProjectId = GitLabProjectId
+    }
+    getArchiveDate()
+    {
+      def date = new Date()
+      def sdf = new SimpleDateFormat("yyyyMMdd")
+      return sdf.format(date)
+    }
+    getBatchsFolder(String Server)
+    {
+      if(Constants.devServerName==Server)
+        {return Constants.devBatchsFolderName}
+      else if(Constants.recetteServerName==Server)
+        {return Constants.recetteBatchsFolderName}
+      else(Constants.productionServerName==Server)
+        {return Constants.productionBatchsFolderName}
+    }
 }
 
 properties([
@@ -83,7 +122,7 @@ parameters([
     choiceType: 'ET_FORMATTED_HTML',
     omitValueField: false,
     referencedParameters: 'Server',
-    name: 'TEST2',
+    name: 'ServerURL',
     script: [
       $class: 'GroovyScript',
       fallbackScript: [
@@ -97,12 +136,13 @@ parameters([
 
 def initializeBuildDetails()
 {
-  return new BuildDetails()
+  return new BuildDetails($params.Project, $ServerURL,$Server,$params.BuildConfiguration,$params.BuildPlatforme,$currentBuild.number,$params.GitLabToken,$params.GitLabProjectId)
 }
 
 pipeline {
   agent any
   parameters {
+    string(name: 'Project', defaultValue: Constants.Project)
     choice(name: 'BuildConfiguration', choices: Constants.BuildConfigurationList, description: 'Configuration de la solution')
     choice(name: 'BuildPlatforme', choices: Constants.BuildPlateformeList, description: 'Plateforme de la solution')
     string(name: 'GitLabProjectId', defaultValue: Constants.GitLabProjectIdDefaultValue)
@@ -115,6 +155,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'before'
+        echo $envbuildDetails
         echo 'after'
       }
     }
