@@ -6,13 +6,13 @@ class PiplineParameters {
   static final String GitLabTokenDefaultValue = 'pW-SiNxUqhEj29ES8Ghi'
   static List ProjectTypeList = ['Batch', 'Service', 'WebSite']
   static List BuildConfigurationList = ['Release', 'Debug']
-  static List BuildPlateformeList = ['x86', 'x64', 'Any CPU']
+  static List BuildPlateformList = ['x86', 'x64', 'Any CPU']
 }
 class PiplineParametersDescription {
   static final String Project = 'Nom du csproj ou du sln'
   static final String ProjectType = 'Type de projet'
   static final String BuildConfiguration = 'Configuration de la solution'
-  static final String BuildPlateforme = 'Plateforme de la solution'
+  static final String BuildPlateform = 'Plateform de la solution'
   static final String GitLabProjectId = 'Id du projet GitLab'
   static final String GitLabToken = 'Token GitLab'
 }
@@ -74,7 +74,7 @@ class BuildDetails {
   String HardDisk = FolderNames.hardDisk
   //DEPLOY_ENV
   String BuildConfiguration
-  String BuildPlatforme
+  String BuildPlatform
   String BuildNumber
   String EnvToDeploy
   String GitLabToken
@@ -183,7 +183,7 @@ pipeline {
     string(name: 'ProjectFileName', defaultValue: PiplineParameters.Project, description: PiplineParametersDescription.Project)
     choice(name: 'ProjectType', choices: PiplineParameters.ProjectTypeList, description: PiplineParametersDescription.ProjectType)
     choice(name: 'BuildConfiguration', choices: PiplineParameters.BuildConfigurationList, description: PiplineParametersDescription.BuildConfiguration)
-    choice(name: 'BuildPlatforme', choices: PiplineParameters.BuildPlateformeList, description: PiplineParametersDescription.BuildPlateforme)
+    choice(name: 'BuildPlatforme', choices: PiplineParameters.BuildPlateformList, description: PiplineParametersDescription.BuildPlateform)
     string(name: 'GitLabProjectId', defaultValue: PiplineParameters.GitLabProjectIdDefaultValue, description: PiplineParametersDescription.GitLabProjectId)
     string(name: 'GitLabToken', defaultValue: PiplineParameters.GitLabTokenDefaultValue, description: PiplineParametersDescription.GitLabToken)
   }
@@ -198,7 +198,7 @@ pipeline {
       steps {
           echo "Building ${buildDetails.Project} from ${buildDetails.BranchName}"
           bat "nuget restore \"${buildDetails.Project}\""
-          bat "MsBuild.exe \"${buildDetails.Project}\" /p:Configuration=${buildDetails.BuildConfiguration} /p:OutputPath=${buildDetails.OutputPath} /p:Platform=${buildDetails.BuildPlateforme}"
+          bat "MsBuild.exe \"${buildDetails.Project}\" /p:Configuration=${buildDetails.BuildConfiguration} /p:OutputPath=${buildDetails.OutputPath} /p:Platform=${buildDetails.BuildPlatform}"
       }
     }
     // stage('Deploy') {
