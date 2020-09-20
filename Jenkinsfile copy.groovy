@@ -70,7 +70,7 @@ parameters([
         script: 'return ["ERROR"]'
         ],
       script: [
-        script: ScriptToDefineServerList.ServerListScript
+        script: ConstantsScripts.ServerListScript
       ]
     ]
   ],
