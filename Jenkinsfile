@@ -56,7 +56,7 @@ class ConstantsScripts {
   {
     serverName="''' + Constants.productionServer + '''"
   }
-  return "<input name='value' class='setting - input' value='${serverName}' type='text'>"
+  return "<input name='value' class='setting-input' value='${serverName}' type='text'>"
   '''
 }
 class BuildDetails {
