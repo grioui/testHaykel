@@ -170,10 +170,25 @@ parameters([
 ])])
 
 def initializeBuildDetails() {
-    return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatform, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME)
+  
+    test= new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatform, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME,env.WORKSPACE)
+  println 'avant'
+      println test.Project
+    println test.ServerURL
+    println test.ArchiveDate
+    println test.DeployFolder
+    println test.BuildConfiguration
+    println test.BuildPlatform
+    println test.BuildNumber
+    println test.EnvToDeploy
+    println test.GitLabToken
+    println test.GitLabProjectId
+    println test.BranchName
+    println test.Workspace
+      println 'apres'
+    return test
 }
 
-def buildDetails
 pipeline {
   agent any
   parameters {
@@ -189,7 +204,7 @@ pipeline {
     stage('Initialize') {
       steps 
       {
-        buildDetails = initializeBuildDetails()
+        script { buildDetails = initializeBuildDetails() }   
       }
     }
     stage('Checkout SCM') {
