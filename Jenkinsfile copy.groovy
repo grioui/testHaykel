@@ -10,13 +10,12 @@ class PiplineParameters {
 }
 class PiplineParametersDescription {
   static final String Project = 'Nom du csproj ou du sln'
-  static final List ProjectType = 'Type de projet'
-  static final List BuildConfiguration = 'Configuration de la solution'
-  static final List BuildPlateforme = 'Plateforme de la solution'
+  static final String ProjectType = 'Type de projet'
+  static final String BuildConfiguration = 'Configuration de la solution'
+  static final String BuildPlateforme = 'Plateforme de la solution'
   static final String GitLabProjectId = 'Id du projet GitLab'
   static final String GitLabToken = 'Token GitLab'
 }
-
 class PiplineScriptsParameters {
   static List ServerList = ["\"" + ServerDetails.devServerName + "\"", "\"" + ServerDetails.recetteServerName + "\"", "\"" + ServerDetails.productionServerName + "\""]
   static String ServerListScript = "return $ServerList"
