@@ -191,10 +191,10 @@ def initializeBuildDetails() {
 
   return new BuildDetails(params.Project, params.ServerURL, params.Server, params.BuildConfiguration, params.BuildPlatform, currentBuild.number.toString(), params.GitLabToken, params.GitLabProjectId, params.ProjectType,env.BRANCH_NAME,env.WORKSPACE)
 }
-node {
-buildDetails = initializeBuildDetails()
 
 pipeline {
+  buildDetails = initializeBuildDetails()
+
   agent any
   parameters {
     string(name: 'Project', defaultValue: PiplineParameters.Project, description: PiplineParametersDescription.Project)
@@ -233,5 +233,4 @@ pipeline {
     //   }
     // }
   }
-}
 }
