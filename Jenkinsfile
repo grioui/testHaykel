@@ -72,7 +72,6 @@ class BuildDetails {
   String GitLabProjectId
 
   BuildDetails(Project, ServerURL,Server,BuildConfiguration,BuildPlatforme,BuildNumber,GitLabToken,GitLabProjectId) {  
-        echo 'in the ctor'
         this.Project = Project
         this.ServerURL = ServerURL
         this.BatchsFolder = getBatchsFolder(Server)
@@ -83,8 +82,6 @@ class BuildDetails {
         this.EnvToDeploy = Server
         this.GitLabToken = GitLabToken
         this.GitLabProjectId = GitLabProjectId  
-        echo this.BuildConfiguration
-        echo 'end the ctor'
     }
     @NonCPS
     def getArchiveDate()
