@@ -152,7 +152,7 @@ pipeline {
   agent any
   parameters {
     string(name: 'Project', defaultValue: Constants.Project)
-    choice(name: 'ProjectType', choices: Constants.ProjectTypeEnum.toList(), description: 'Type de projet')
+    choice(name: 'ProjectType', choices: Constants.ProjectTypeEnum.values()*.name(), description: 'Type de projet')
     choice(name: 'BuildConfiguration', choices: Constants.BuildConfigurationList, description: 'Configuration de la solution')
     choice(name: 'BuildPlatforme', choices: Constants.BuildPlateformeList, description: 'Plateforme de la solution')
     string(name: 'GitLabProjectId', defaultValue: Constants.GitLabProjectIdDefaultValue)
